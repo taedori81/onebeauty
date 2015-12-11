@@ -165,11 +165,14 @@ SOUTH_TESTS_MIGRATE = False  # Makes tests that much faster.
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'var', 'media')
-STATIC_ROOT = os.path.join(BASE_DIR, 'var', 'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'media')
 MEDIA_URL = '/media/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, '..', 'staticfiles')
 
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
 LOGGING = {
     'version': 1,
@@ -218,7 +221,7 @@ SESSION_SERIALIZER = "django.contrib.sessions.serializers.PickleSerializer"
 
 
 # SHOOP
-SHOOP_ENABLED_ADDONS_FILE = os.path.join(BASE_DIR, "var", "enabled_addons")
+SHOOP_ENABLED_ADDONS_FILE = os.path.join(BASE_DIR,"..", "var", "enabled_addons")
 SHOOP_PRICING_MODULE = "simple_pricing"
 
 if os.environ.get("SHOOP_WORKBENCH_DISABLE_MIGRATIONS") == "1":
