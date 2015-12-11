@@ -108,3 +108,4 @@ target/
 
 .env
 dev.py
+node_modules
