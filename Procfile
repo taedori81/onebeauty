@@ -1,0 +1,1 @@
+web: gunicorn onbeauty.wsgi --log-file -
