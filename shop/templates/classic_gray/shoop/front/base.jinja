@@ -9,7 +9,7 @@
     {# Page Title #}
     <title>{{ request.shop.public_name }} &ndash; {% block title %}{% endblock %}</title>
     {# Include Favicon #}
-    <link rel="icon" type="image/x-icon" href="{{ static ('classic_gray/img/favicon.ico') }}">
+    <link rel="icon" type="image/x-icon" href="{{ STATIC_URL }}classic_gray/img/favicon.ico">
     {# Include Fonts #}
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
     {# Include Styles #}
@@ -23,13 +23,13 @@
      <link rel="stylesheet" href="{{ STATIC_URL }}css/custom.css">
 
      <!-- Modernizr -->
-     <script src="{{ static("js/modernizr.js") }}"></script>
+     <script src="{{ STATIC_URL }}js/modernizr.js"></script>
 
      <!--- jQuery -->
-     <script src="{{ static("js/jquery-2.1.4.min.js") }}"></script>
+     <script src="{{ STATIC_URL }}js/jquery-2.1.4.min.js"></script>
 
      <!-- Queryloader -->
-     <script src="{{ static("js/queryloader2.min.js") }}"></script>
+     <script src="{{ STATIC_URL }}js/queryloader2.min.js"></script>
 </head>
 <body>
 {#    <div class="boss-loader-overlay"></div><!-- End .boss-loader-overlay -->#}
@@ -103,12 +103,14 @@
 
 
     {# Include JavaScript libraries #}
+    <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
     <script src="{{ STATIC_URL }}classic_gray/js/classic-gray.js"></script>
     {# Include all Extra JavaScript #}
     {% block extrajs %}
         <script src="{{ STATIC_URL }}js/smoothscroll.js"></script>
         <script src="{{ STATIC_URL }}js/jquery.hoverIntent.min.js"></script>
         <script src="{{ STATIC_URL }}js/jquery.nicescroll.min.js"></script>
+        <script src="{{ STATIC_URL }}js/waypoints.min.js"></script>
         <script src="{{ STATIC_URL }}js/waypoints-sticky.min.js"></script>
         <script src="{{ STATIC_URL }}js/jquery.debouncedresize.js"></script>
         <script src="{{ STATIC_URL }}js/retina.min.js"></script>
@@ -116,6 +118,7 @@
         <script src="{{ STATIC_URL }}js/jflickrfeed.min.js"></script>
         <script src="{{ STATIC_URL }}js/jquery.countTo.js"></script>
         <script src="{{ STATIC_URL }}js/isotope.pkgd.min.js"></script>
+        <script src="{{ STATIC_URL }}js/jquery.themepunch.tools.min.js"></script>
         <script src="{{ STATIC_URL }}js/jquery.themepunch.revolution.min.js"></script>
         <script src="{{ STATIC_URL }}js/jquery.selectbox.min.js"></script>
         <script src="{{ STATIC_URL }}js/wow.min.js"></script>
