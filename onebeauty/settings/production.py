@@ -207,6 +207,7 @@ AWS_AUTO_CREATE_BUCKET = True
 AWS_HEADERS = {
     "Cache-Control": "public, max-age=86400",
 }
+
 AWS_S3_FILE_OVERWRITE = False
 AWS_QUERYSTRING_AUTH = False
 AWS_S3_SECURE_URLS = True
@@ -219,7 +220,7 @@ AWS_IS_GZIPPED = False
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
 
 # Use Amazon S3 for static files storage.
-STATICFILES_STORAGE = "require_s3.storage.OptimizedCachedStaticFilesStorage"
+STATICFILES_STORAGE = "storages.backends.s3boto.S3BotoStorage"
 STATIC_URL = "https://{bucket_name}.s3.amazonaws.com/".format(
     bucket_name=AWS_STORAGE_BUCKET_NAME,
 )
