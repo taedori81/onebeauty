@@ -213,16 +213,19 @@ AWS_QUERYSTRING_AUTH = False
 AWS_S3_SECURE_URLS = True
 AWS_REDUCED_REDUNDANCY = False
 AWS_IS_GZIPPED = False
-
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
 # Use Amazon S3 for storage for uploaded media files.
-# DEFAULT_FILE_STORAGE = "onebeauty.storage.MediaRootS3BotoStorage"
+MEDIAFILES_LOCATION ='media'
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
+MEDIA_ROOT = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
 
 # Use Amazon S3 for static files storage.
-STATICFILES_STORAGE = "require_s3.storage.OptimizedCachedStaticFilesStorage"
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-STATIC_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
+STATICFILES_LOCATION = 'static'
+STATICFILES_STORAGE = "onebeauty.storage.StaticStorage"
+STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, STATICFILES_LOCATION)
+
+
 # Additional static file locations.
 
 STATICFILES_DIRS = (
