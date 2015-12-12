@@ -220,11 +220,9 @@ AWS_IS_GZIPPED = False
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
 
 # Use Amazon S3 for static files storage.
-STATICFILES_STORAGE = "storages.backends.s3boto.S3BotoStorage"
-STATIC_URL = "https://{bucket_name}.s3.amazonaws.com/".format(
-    bucket_name=AWS_STORAGE_BUCKET_NAME,
-)
-
+STATICFILES_STORAGE = "require_s3.storage.OptimizedCachedStaticFilesStorage"
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+STATIC_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
 # Additional static file locations.
 
 STATICFILES_DIRS = (

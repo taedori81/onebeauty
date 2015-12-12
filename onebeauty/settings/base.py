@@ -84,6 +84,7 @@ INSTALLED_APPS = add_enabled_addons(SHOOP_ENABLED_ADDONS_FILE, [
 
     'shoop.discount_pricing',
     'herokuapp',
+    'storages',
 ])
 
 MIDDLEWARE_CLASSES = (
