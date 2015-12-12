@@ -1,1 +1,1 @@
-web: waitress-server --port=$PORT onebeauty.wsgi:application
+web: waitress-serve --port=$PORT onebeauty.wsgi:application
