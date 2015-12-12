@@ -9,7 +9,6 @@
         </div>
     </div><!-- End #header-search-form -->
     <nav class="navbar navbar-white animated-dropdown btt-dropdown" role="navigation">
-
         <div class="navbar-top no-bg clearfix">
             <div class="container">
                 <div class="pull-left">
@@ -39,7 +38,6 @@
                                 <li><a href="{{ url("shoop_admin:dashboard") }}"><i class="fa fa-dashboard fa-fw"></i> {% trans %}Admin panel{% endtrans %}</a></li>
                             {% endif %}
                             {% if shoop.urls.has_url("shoop:logout") %}
-                                <li role="separator" class="divider"></li>
                                 <li>
                                     <a href="{{ url("shoop:logout") }}">
                                         <i class="fa fa-sign-out fa-fw"></i> {% trans %}Log out{% endtrans %}
@@ -49,18 +47,18 @@
 
                         {% else %}
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="logindropdown" aria-expanded="true">
                                     <i class="menu-icon fa fa-user"></i> <span class="hidden-xs">{% trans %}Log in{% endtrans %}</span>
                                     <i class="dropdown-icon fa fa-angle-down"></i>
                                 </a>
-                                <ul class="dropdown-menu login" role="dropdown-menu">
+                                <ul class="dropdown-menu login" role="dropdown-menu" aria-labelledby="logindropdown">
                                     <li>
                                         <form role="form" method="post" action="{{ url("shoop:login") }}">
                                             {% csrf_token %}
                                             {% if request.resolver_match.url_name == "logout" %}{% set next="/" %}{% endif %}
                                             <input type="hidden" name="next" value="{{ next or request.path }}">
                                             <div class="form-group">
-                                                <label for="username">{% trans %}Username or email address{% endtrans %}</label>
+                                                <label for="username">{% trans %}Email address{% endtrans %}</label>
                                                 <input type="text" name="username" class="form-control">
                                             </div>
                                             <div class="form-group">

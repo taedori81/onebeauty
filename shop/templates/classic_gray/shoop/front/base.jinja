@@ -19,6 +19,7 @@
      <link rel="stylesheet" href="{{ STATIC_URL }}css/revslider/revslider-index5.css">
      <link rel="stylesheet" href="{{ STATIC_URL }}css/skins/lightfonts.css">
      <link rel="stylesheet" href="{{ STATIC_URL }}css/colors/purple.css" id="color-scheme">
+{#     <link rel="stylesheet" href="{{ STATIC_URL }}classic_gray/css/style.css">#}
      <link rel="stylesheet" href="{{ STATIC_URL }}css/style2.css">
      <link rel="stylesheet" href="{{ STATIC_URL }}css/custom.css">
 
@@ -32,7 +33,7 @@
      <script src="{{ STATIC_URL }}js/queryloader2.min.js"></script>
 </head>
 <body>
-{#    <div class="boss-loader-overlay"></div><!-- End .boss-loader-overlay -->#}
+    <div class="boss-loader-overlay"></div><!-- End .boss-loader-overlay -->
 
     {% if request.shop.maintenance_mode %}
         <div class="alert alert-warning alert-top text-center alert-dismissible">
@@ -104,7 +105,7 @@
 
     {# Include JavaScript libraries #}
     <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
-    <script src="{{ STATIC_URL }}classic_gray/js/classic-gray.js"></script>
+{#    <script src="{{ STATIC_URL }}classic_gray/js/classic-gray.js"></script>#}
     {# Include all Extra JavaScript #}
     {% block extrajs %}
         <script src="{{ STATIC_URL }}js/smoothscroll.js"></script>
