@@ -32,6 +32,7 @@
      <script src="{{ static("js/queryloader2.min.js") }}"></script>
 </head>
 <body>
+{#    <div class="boss-loader-overlay"></div><!-- End .boss-loader-overlay -->#}
 
     {% if request.shop.maintenance_mode %}
         <div class="alert alert-warning alert-top text-center alert-dismissible">
@@ -39,41 +40,96 @@
             {% trans %}Shop is currently in maintenance mode.{% endtrans %}
         </div>
     {% endif %}
-    <nav class="main-nav">
-        {% include "shoop/front/includes/_navigation.jinja" %}
-    </nav>
-    <main class="main-container" role="main">
-        <div class="container">
-            {% block breadcrumb %}{% endblock %}
-            {% if messages %}
+
+    <div id="wrapper">
+        {% if messages %}
                 {% for message in messages %}
                     <div class="alert alert-dismissible alert-{{ message.tags }}" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         {{ message }}
                     </div>
                 {% endfor %}
-            {% endif %}
-            {% if form and form.errors %}
+        {% endif %}
+        {% if form and form.errors %}
                 <div class="alert alert-dismissible alert-danger" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <i class="fa fa-exclamation-circle"></i> {% trans %}There were errors on submitted form fields. Please check them and try again.{% endtrans %}
                 </div>
-            {% endif %}
-            {% block before_content_title %}{% endblock %}
-            {% if self.content_title() %}
-                <h1 class="page-header">{% block content_title %}{% endblock %}</h1>
-            {% endif %}
-            <div class="page-content">
-                {% block content %}{% endblock %}
-            </div>
-        </div>
-    </main>
-    {% include "shoop/front/includes/_footer.jinja" %}
+        {% endif %}
+        {% block layout %}
+            {% block navigation %}
+                {% include "shoop/front/includes/_navigation.jinja" %}
+            {% endblock %}
+            {# Main content of page - other layout templates may override this block #}
+            {% block content_wrapper %}
+                <div class="container-fluid page">
+                    <div class="page_inner">
+                        {% block breadcrumbs %}{% endblock %}
+                        {% block header %}
+                            <div class="page-header action">
+                                <h1>{% block headertext %}{% endblock %}</h1>
+                            </div>
+                        {% endblock %}
+
+                        {% block subnavigation %}{% endblock %}
+                        <div class="content">
+                            {% block subheader %}{% endblock subheader %}
+
+
+                            {# Div exists for AJAX updates to entire content section #}
+                            <div id="content_inner">{% block content %}{% endblock %}</div>
+                        </div>
+                    </div>
+                </div>
+            {% endblock %}
+            {% include "shoop/front/includes/_footer.jinja" %}
+            <a href="#top" id="scroll-top" title="Back to Top"><i class="fa fa-angle-up"></i></a>
+        {% endblock %}
+    </div>
+{#    <main class="main-container" role="main">#}
+{#        <div class="container">#}
+{#            {% block breadcrumb %}{% endblock %}#}
+{#            #}
+{#            #}
+{#            {% block before_content_title %}{% endblock %}#}
+{#            {% if self.content_title() %}#}
+{#                <h1 class="page-header">{% block content_title %}{% endblock %}</h1>#}
+{#            {% endif %}#}
+{#            <div class="page-content">#}
+{#                {% block content %}{% endblock %}#}
+{#            </div>#}
+{#        </div>#}
+{#    </main>#}
+
 
     {# Include JavaScript libraries #}
     <script src="{{ STATIC_URL }}classic_gray/js/classic-gray.js"></script>
     {# Include all Extra JavaScript #}
-    {% block extrajs %}{% endblock %}
+    {% block extrajs %}
+        <script src="{{ static("js/smoothscroll.js") }}"></script>
+        <script src="{{ static("js/jquery.hoverIntent.min.js") }}"></script>
+        <script src="{{ static("js/jquery.nicescroll.min.js") }}"></script>
+        <script src="{{ static("js/waypoints.min.js") }}"></script>
+        <script src="{{ static("js/waypoints-sticky.min.js") }}"></script>
+        <script src="{{ static("js/jquery.debouncedresize.js") }}"></script>
+        <script src="{{ static("js/retina.min.js") }}"></script>
+        <script src="{{ static("js/owl.carousel.min.js") }}"></script>
+        <script src="{{ static("js/jflickrfeed.min.js") }}"></script>
+        <script src="{{ static("js/skrollr.min.js") }}"></script>
+        <script src="{{ static("js/jquery.countTo.js") }}"></script>
+        <script src="{{ static("js/isotope.pkgd.min.js") }}"></script>
+        <script src="{{ static("js/jquery.themepunch.tools.min.js") }}"></script>
+        <script src="{{ static("js/jquery.themepunch.revolution.min.js") }}"></script>
+        <script src="{{ static("js/jquery.selectbox.min.js") }}"></script>
+        <script src="{{ static("js/wow.min.js") }}"></script>
+        <script src="{{ static("js/jquery.validate.min.js") }}"></script>
+        <script src="{{ static("js/jquery.nouislider.min.js") }}"></script>
+        <script src="{{ static("js/jquery.elevateZoom.min.js") }}"></script>
+        <script src="{{ static("js/jquery.bootstrap-touchspin.min.js") }}"></script>
+        <script src="{{ static("js/main2.js") }}"></script>
+        <script src="{{ static("js/contact.js") }}"></script>
+        <script src="{{ static("js/custom.js") }}"></script>
+    {% endblock %}
     {# Block for body onload functions #}
         <script type="text/javascript">
             $(function() {

@@ -1,0 +1,192 @@
+{% from "shoop/front/macros.jinja" import render_field with context %}
+<header id="header" role="banner">
+    <div class="collapse navbar-white" id="header-search-form">
+        <div class="container">
+        <form class="navbar-form animated fadeInDown"  role="search">
+            <input type="search" id="s" name="s" class="form-control" placeholder="Search in here...">
+            <button type="submit" class="btn-circle" title="Search"><i class="fa fa-search"></i></button>
+        </form>
+        </div>
+    </div><!-- End #header-search-form -->
+    <nav class="navbar navbar-white animated-dropdown btt-dropdown" role="navigation">
+
+        <div class="navbar-top no-bg clearfix">
+            <div class="container">
+                <div class="pull-left">
+                    <ul class="navbar-top-nav clearfix hidden-sm hidden-xs">
+                        {% if user.is_authenticated() %}
+                            <li>
+                                <a href="{{ url("shoop:customer_edit") }}">
+                                    <i class="fa fa-user"></i>
+                                    <span class="hidden-xs"></span>
+                                    {% if user.first_name or user.last_name %}
+                                        {{ user.get_full_name() }}
+                                    {% else %}
+                                        {{ user }}
+                                    {% endif %}
+                                </a>
+                            </li>
+                            {% if shoop.urls.has_url("shoop:personal-orders") %}
+                                <li>
+                                    <a href="{{ url("shoop:personal-orders") }}">
+                                        <i class="fa fa-list-alt fa-fw"></i>
+                                        {% trans %}My orders{% endtrans %}
+                                    </a>
+                                </li>
+                            {% endif %}
+
+                            {% if user.is_superuser %}
+                                <li><a href="{{ url("shoop_admin:dashboard") }}"><i class="fa fa-dashboard fa-fw"></i> {% trans %}Admin panel{% endtrans %}</a></li>
+                            {% endif %}
+                            {% if shoop.urls.has_url("shoop:logout") %}
+                                <li role="separator" class="divider"></li>
+                                <li>
+                                    <a href="{{ url("shoop:logout") }}">
+                                        <i class="fa fa-sign-out fa-fw"></i> {% trans %}Log out{% endtrans %}
+                                    </a>
+                                </li>
+                            {% endif %}
+
+                        {% else %}
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="menu-icon fa fa-user"></i> <span class="hidden-xs">{% trans %}Log in{% endtrans %}</span>
+                                    <i class="dropdown-icon fa fa-angle-down"></i>
+                                </a>
+                                <ul class="dropdown-menu login" role="dropdown-menu">
+                                    <li>
+                                        <form role="form" method="post" action="{{ url("shoop:login") }}">
+                                            {% csrf_token %}
+                                            {% if request.resolver_match.url_name == "logout" %}{% set next="/" %}{% endif %}
+                                            <input type="hidden" name="next" value="{{ next or request.path }}">
+                                            <div class="form-group">
+                                                <label for="username">{% trans %}Username or email address{% endtrans %}</label>
+                                                <input type="text" name="username" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="password">{% trans %}Password{% endtrans %}</label>
+                                                <input type="password" name="password" class="form-control">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary btn-block">
+                                                {% trans %}Log in{% endtrans %}
+                                            </button>
+                                        </form>
+                                    </li>
+                                    <li class="divider"></li>
+                                    {% if shoop.urls.has_url("shoop:recover_password") %}
+                                    <li>
+                                        <a href="{{ url("shoop:recover_password") }}">
+                                            <i class="fa fa-question fa-fw"></i> {% trans %}Forgot your password?{% endtrans %}
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                    {% if shoop.urls.has_url("shoop:registration_register") %}
+                                    <li>
+                                        <a href="{{ url("shoop:registration_register") }}">
+                                            <i class="fa fa-edit fa-fw"></i> {% trans %}New user? Register here!{% endtrans %}
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                             </li>
+                        {% endif %}
+                    </ul>
+                </div><!-- End .pull-left -->
+
+                <div class="pull-right">
+{#                    <div class="social-icons pull-right hidden-xs">#}
+{#                        <a href="#" class="social-icon icon-facebook" title="Facebook">#}
+{#                            <i class="fa fa-facebook"></i>#}
+{#                        </a>#}
+{#                        <a href="#" class="social-icon icon-twitter" title="Twitter">#}
+{#                            <i class="fa fa-twitter"></i>#}
+{#                        </a>#}
+{#                        <a href="#" class="social-icon icon-google-plus" title="Google Plus">#}
+{#                            <i class="fa fa-google-plus"></i>#}
+{#                        </a>#}
+{#                        <a href="#" class="social-icon icon-dribbble" title="Dribbble">#}
+{#                            <i class="fa fa-dribbble"></i>#}
+{#                        </a>#}
+{#                        <a href="#" class="social-icon icon-reddit" title="Reddit">#}
+{#                            <i class="fa fa-reddit"></i>#}
+{#                        </a>#}
+{#                        <a href="#" class="social-icon icon-skype" title="Skype">#}
+{#                            <i class="fa fa-skype"></i>#}
+{#                        </a>#}
+{#                    </div><!-- End .social-icons -->#}
+
+                    <div class="dropdowns-container pull-right clearfix">
+                        <div class="dropdown currency-dropdown pull-right">
+                            <a class="dropdown-toggle" href="#" id="currency-dropdown" data-toggle="dropdown" aria-expanded="true">
+                            Currency
+                            <span class="angle"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="currency-dropdown">
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Us Dollar</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Euro</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Turkish TL</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Pound</a></li>
+                            </ul>
+                        </div><!-- End .currency-dropdown -->
+
+                        <div class="dropdown language-dropdown pull-right">
+                            <a class="dropdown-toggle" href="#" id="language-dropdown" data-toggle="dropdown" aria-expanded="true">
+                            Languages
+                            <span class="angle"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="language-dropdown">
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">English</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Spanish</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Turkish</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">German</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Italian</a></li>
+                            </ul>
+                        </div><!-- End .curreny-dropdown -->
+                    </div><!-- End. dropdowns-container -->
+                </div><!-- End .pull-right -->
+            </div><!-- End .container-fluid -->
+        </div><!-- End .navbar-top -->
+
+
+        <div class="navbar-inner sticky-menu">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle btn-circle pull-right collapsed" data-toggle="collapse" data-target="#main-navbar-container">
+                        <span class="sr-only">{% trans %}Menu{% endtrans %}</span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    {% set cropped_logo = request.shop.logo|thumbnail(size=(500,500)) %}
+                    {% if cropped_logo %}
+                        <a href="/" class="image" style="background-image:url('{{ cropped_logo }}')"></a>
+                    {% else %}
+                        <a class="navbar-brand text-uppercase clear-padding-left" href="/" title="">{{ request.shop.public_name }}</a>
+                    {% endif %}
+                </div><!-- End .navbar-header -->
+
+                <div class="collapse navbar-collapse" id="main-navbar-container">
+                    <div class="container">
+                        <ul class="nav navbar-nav">
+                            <li{% if request.path == "/" %} class="current"{% endif %}><a href="/">{% trans %}Home{% endtrans %}</a></li>
+                                {% set products_url = url('shoop:xtheme_extra_view', view='products') %}
+                                <li{% if request.path == products_url %} class="current"{% endif %}><a href="{{ products_url }}">{% trans %}Products{% endtrans %}</a></li>
+                                {% if shoop.simple_cms %}
+                                    {% for link in xtheme.get_cms_navigation_links() %}
+                                        <li{% if request.path == "%s/" % link.url %} class="current"{% endif %}><a href="{{ link.url }}">{{ link.text }}</a></li>
+                                    {% endfor %}
+                                {% endif %}
+                        </ul>
+
+                        <button type="button" class="navbar-btn btn-icon btn-circle pull-right last" data-toggle="collapse" data-target="#header-search-form"><i class="fa fa-search"></i></button>
+
+                    {% block mini_basket %}
+                        <div class="dropdown cart-dropdown pull-right">
+                            <button type="button" class="navbar-btn btn-icon btn-circle dropdown-toggle" data-toggle="dropdown"><i class="fa fa-shopping-cart"></i></button>
+{#                            {% include 'basket/partials/basket_quick.html' %}#}
+                        </div><!-- End .cart-dropdown -->
+                    {% endblock %}
+                    </div><!-- End .container -->
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </div>
+    </nav>
+</header><!-- End #header -->
