@@ -83,6 +83,7 @@ INSTALLED_APPS = add_enabled_addons(SHOOP_ENABLED_ADDONS_FILE, [
     'rest_framework',
 
     'shoop.discount_pricing',
+    'herokuapp',
 ])
 
 MIDDLEWARE_CLASSES = (
@@ -101,24 +102,22 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'onebeauty.urls'
 
-_TEMPLATE_CONTEXT_PROCESSORS = [
-    "django.contrib.auth.context_processors.auth",
-    "django.core.context_processors.debug",
-    "django.core.context_processors.i18n",
-    "django.core.context_processors.media",
-    "django.core.context_processors.static",
-    "django.core.context_processors.request",
-    "django.core.context_processors.tz",
-    "django.contrib.messages.context_processors.messages"
-]
-
 TEMPLATES = [
     {
         "BACKEND": "django_jinja.backend.Jinja2",
         "APP_DIRS": True,
         "OPTIONS": {
             "match_extension": ".jinja",
-            "context_processors": _TEMPLATE_CONTEXT_PROCESSORS,
+            "context_processors": [
+                "django.contrib.auth.context_processors.auth",
+                "django.core.context_processors.debug",
+                "django.core.context_processors.i18n",
+                "django.core.context_processors.media",
+                "django.core.context_processors.static",
+                "django.core.context_processors.request",
+                "django.core.context_processors.tz",
+                "django.contrib.messages.context_processors.messages"
+            ],
             "newstyle_gettext": True,
             "environment": "shoop.xtheme.engine.XthemeEnvironment",
         },
@@ -129,7 +128,16 @@ TEMPLATES = [
         "DIRS": [],
         "APP_DIRS": True,
         "OPTIONS": {
-            "context_processors": _TEMPLATE_CONTEXT_PROCESSORS,
+            "context_processors": [
+                "django.contrib.auth.context_processors.auth",
+                "django.core.context_processors.debug",
+                "django.core.context_processors.i18n",
+                "django.core.context_processors.media",
+                "django.core.context_processors.static",
+                "django.core.context_processors.request",
+                "django.core.context_processors.tz",
+                "django.contrib.messages.context_processors.messages"
+            ],
             "debug": DEBUG
         }
     },
@@ -167,13 +175,14 @@ SOUTH_TESTS_MIGRATE = False  # Makes tests that much faster.
 
 MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'media')
 MEDIA_URL = '/media/'
+
 STATIC_URL = '/static/'
 STATIC_ROOT = 'staticfiles'
 # STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, '..', 'shop', 'static'),
+    # os.path.join(BASE_DIR, '..', 'shop', 'static'),
 )
 
 LOGGING = {

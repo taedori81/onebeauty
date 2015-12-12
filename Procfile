@@ -1,1 +1,1 @@
-web: gunicorn onebeauty.wsgi --log-file -
+web: waitress-server --port=$PORT onebeauty.wsgi:application
