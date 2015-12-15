@@ -1,0 +1,28 @@
+<div class="panel panel-border-tb">
+    <div class="panel-heading" role="tab" id="sizeFilter-header">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" href="#categoriesFilter" aria-expanded="true" aria-controls="sizeFilter">
+                {% trans %}Categories{% endtrans %}
+                <span class="panel-icon"></span>
+            </a>
+        </h4>
+    </div><!-- End .panel-heading -->
+    <div id="categoriesFilter" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="categoriesFilter-header">
+        <div class="panel-body">
+            <ul id="category-widget">
+                {% for c in shoop.general.get_root_categories() recursive %}
+                    {% set children = c.get_children() %}
+                    <li class="open">
+                        {% if children %}
+                            <a href="{{ url("shoop:category", pk=c.pk, slug=c.slug) }}"><span class="category-widget-btn"></span> {{ c }}</a>
+                            <ul>{{ loop(children) }}</ul>
+                        {% else %}
+                            <a href="{{ url("shoop:category", pk=c.pk, slug=c.slug) }}" {% if category and c == category %} class="active" {% endif %}>{% if c.is_child_node() %}<i class="fa fa-angle-right"></i>{% endif %}{{ c }}</a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div><!-- End .panel-body -->
+    </div><!-- End .panel-collapse -->
+</div><!-- End .panel -->
+

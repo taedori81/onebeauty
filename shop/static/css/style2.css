@@ -3778,10 +3778,19 @@ a.list-group-item:focus {
 	margin-right:8px;
 }
 
-.navbar-top-nav li:after,
-.navbar-top .social-icon:after {
-	content:'/';
-	padding-left:10px;
+/*.navbar-top-nav li:after,*/
+/*.navbar-top .social-icon:after {*/
+	/*content:' ';*/
+	/*padding-left:20px;*/
+/*}*/
+
+.navbar-top-nav li:after {
+	content: ' ';
+	padding-left: 20px;;
+}
+.navbar-top-nav .login-window:after {
+	content: '';
+	padding-left: 0px;;
 }
 
 .navbar-top.navbar-color .navbar-top-nav li:after,

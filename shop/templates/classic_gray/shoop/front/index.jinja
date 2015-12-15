@@ -6,12 +6,13 @@
 {% block content_wrapper %}
 
     <div id="content" role="main">
-        {% if xtheme.get("show_welcome_text", True) %}
-            <h1 class="page-header">{% trans %}Welcome to {% endtrans %}{{ request.shop.public_name }}!</h1>
-        {% endif %}
+{#        {% if xtheme.get("show_welcome_text", True) %}#}
+{#            <h1 class="page-header">{% trans %}Welcome to {% endtrans %}{{ request.shop.public_name }}!</h1>#}
+{#        {% endif %}#}
 
         <div id="revslider-container">
             <div id="revslider">
+            {% set products_url = url('shoop:xtheme_extra_view', view='products') %}
                 <ul>
                     <li data-transition="slideleft" data-slotamount="8" data-masterspeed="800" data-title="All you need" data-thumb="{{ STATIC_URL }}images/revslider/black-hair.jpg">
                         <!-- background image -->
@@ -56,7 +57,7 @@
                             data-easing="Power3.easeInOut"
                             data-endspeed="800"
                             style="z-index: 14">
-{#                                <a href="{{ url('catalogue:index') }}" class="btn btn-white no-radius min-width">{% trans %}Purchase Now!{% endtrans %}</a>#}
+                                <a href="{{ products_url }}" class="btn btn-white no-radius min-width">{% trans %}Purchase Now!{% endtrans %}</a>
                         </div>
                     </li>
                     <li data-transition="slideleft" data-slotamount="8" data-masterspeed="800" data-title="New and Cool" data-thumb="{{ STATIC_URL }}images/revslider/black-hair2.jpg">
@@ -102,7 +103,7 @@
                             data-easing="Power3.easeInOut"
                             data-endspeed="800"
                             style="z-index: 14">
-{#                                <a href="{{  url('catalogue:index') }}" class="btn btn-white no-radius min-width">{% trans %}Purchase Now!{% endtrans %}</a>#}
+                                <a href="{{ products_url }}" class="btn btn-white no-radius min-width">{% trans %}Purchase Now!{% endtrans %}</a>
                         </div>
                     </li>
                 </ul>
@@ -111,16 +112,29 @@
 
         <div class="mb80"></div><!-- space -->
 
+        <div class="container">
+            <ul id="portfolio-filter" class="bordered text-center">
+                <li class="active"><a href="#" data-filter="*">All</a></li>
+                <li><a href="#" data-filter=".design">Design</a></li>
+                <li><a href="#" data-filter=".fashion">Fashion</a></li>
+                <li><a href="#" data-filter=".illustration">Illustration</a></li>
+                <li><a href="#" data-filter=".video">Video</a></li>
+                <li><a href="#" data-filter=".photography">Photography</a></li>
+            </ul>
+        </div><!-- End .container -->
 
         {% placeholder "front_content" %}
-            {% row %}
+            {% row  %}
                 {% plugin "classic_gray.product_highlight" %}
                     type = "newest"
                     title = "Newest Products"
                 {% endplugin %}
             {% endrow %}
             {% row %}
-                {% plugin "classic_gray.product_highlight" %}type = "best_selling"{% endplugin %}
+                {% plugin "classic_gray.product_highlight" %}
+                    type = "best_selling"
+                    title = "Best Setting Products"
+                {% endplugin %}
             {% endrow %}
         {% endplaceholder %}
     </div>

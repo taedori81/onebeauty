@@ -1,0 +1,8 @@
+{%- import "shoop/front/macros.jinja" as macros with context -%}
+
+{% if title %}<h2>{{ title }}</h2>{% endif %}
+<div id="portfolio-item-container" class="max-col-5 popup-gallery graybg">
+   {% for product in products if shoop.product.is_visible(product) %}
+       {{ macros.product_box_for_front(product) }}
+   {% endfor %}
+</div>

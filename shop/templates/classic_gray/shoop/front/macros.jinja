@@ -1,36 +1,92 @@
-{% macro product_box(product, show_image=True, show_description=True, class="product-box", thumbnail_size=(500,500)) %}
+{% macro product_box(product, show_image=True, show_description=True, class="", thumbnail_size=(250,250)) %}
     {% set u = url("shoop:product", pk=product.pk, slug=product.slug) %}
     {% if product.is_variation_parent()  %}
         {% set price_info = product.get_cheapest_child_price_info(request) %}
     {% else %}
         {% set price_info = product.get_price_info(request) %}
     {% endif %}
-    <div class="product-card {{ class }}" id="product-{{ product.id }}">
-        <a href="{{ u }}" rel="product-detail" title="{{ product.name }}">
-            {% if price_info.is_discounted %}
-                <div class="labels">
-                    <span class="label label-sale">{{ -price_info.discount_rate|percent }}</span>
-                </div>
-            {% endif %}
-            {% if show_image %}
-                {% set primary_image_thumb = product.primary_image|thumbnail(size=thumbnail_size) %}
-                <div class="image-wrap">
-                    <div class="image" style="background-image:url('{% if product.primary_image %}{{ primary_image_thumb }}{% else %}{{ STATIC_URL }}classic_gray/img/no_image.png{% endif %}')"></div>
-                </div>
-            {% endif %}
-            <div class="detail-wrap">
-                <div class="name">{{ product.name }}</div>
-                {% if show_description and product.description %}
-                    <p class="description">{{ product.description|striptags|truncate(180)|safe }}</p>
+    <div class="product text-center">
+
+         <div class="product-top">
+{#               <span class="product-box new-box new-box-border">New</span>#}
+             {% if show_image %}
+                    {% for image in images %}
+                        <p>{{ image.url }}</p>
+                    {% endfor %}
+
+                 <figure>
+                     <a href="{{ u }}" title="{{ product.name }}">
+                         {% set primary_image_thumb = product.primary_image|thumbnail(size=thumbnail_size) %}
+                         <img src="{% if product.primary_image %}{{ primary_image_thumb }}{% else %}{{ STATIC_URL }}classic_gray/img/no_image.png{% endif %}" alt="{{ product.name }}" class="product-image product-image-list" style="">
+
+{#                         {% with image=product.secondary_image %}#}
+{#                             {% thumbnail image.original "x250" upscale=False as thumb %}#}
+{#                                 <img src="{{ thumb.url }}" alt="{{ product.get_title }}" class="product-image-hover product-image-hover-list">#}
+{#                             {% endthumbnail %}#}
+{#                         {% endwith %}#}
+                     </a>
+                 </figure>
+             {% endif %}
+             <div class="product-action-container each-btn-animate">
+                 <a href="{{ u }}" class="btn btn-dark quick-view" title="Quick View"><i class="fa fa-search-plus"></i></a>
+             </div><!-- end .product-action-container -->
+         </div><!-- End .product-top -->
+
+         <h3 class="product-title"><a href="{{ u }}" title="{{ product.name }}" class="product-link">{{ product.name }}</a></h3>
+
+         <p class="star-rating">
+              <i class="icon-star"></i>
+              <i class="icon-star"></i>
+              <i class="icon-star"></i>
+              <i class="icon-star"></i>
+              <i class="icon-star"></i>
+         </p>
+        {{ render_product_price(product, price_info, show_units=False) }}
+      <!-- Go to Detail Page -->
+     <a href="{{ u }}" class="btn btn-block btn-custom no-radius add-to-cart">{% trans %}Details{% endtrans %}</a>
+    </div><!-- End .product -->
+{% endmacro %}
+
+{% macro product_box_for_front(product, show_image=True, show_description=True, class="portfolio-item", thumbnail_size=(500,500)) %}
+    {% set u = url("shoop:product", pk=product.pk, slug=product.slug) %}
+    {% if product.is_variation_parent()  %}
+        {% set price_info = product.get_cheapest_child_price_info(request) %}
+    {% else %}
+        {% set price_info = product.get_price_info(request) %}
+    {% endif %}
+    <div class="{{ class }} portfolio-meta-slideup push" id="product-{{ product.id }}">
+        <figure>
+            <a href="{{ u }}" class="zoom-item" title="{{ product.name }}">
+                {% if show_image %}
+                    {% set primary_image_thumb = product.primary_image|thumbnail(size=thumbnail_size) %}
+                    <img src="{% if product.primary_image %}{{ primary_image_thumb }}{% else %}{{ STATIC_URL }}classic_gray/img/no_image.png{% endif %}" alt="{{ product.name }}" class="img-responsive" style="">
                 {% endif %}
-                <div class="price">
-                    {{ render_product_price(product, price_info, show_units=False) }}
-                </div>
+            </a>
+        </figure>
+        <div class="portfolio-meta light">
+        <div class="row">
+            <div class="col-sm-12">
+                <h3 class="portfolio-title"><a href="{{ u }}">{{ product.name }}</a></h3>
             </div>
-        </a>
+        </div>
+        <div class="row">
+            <div class="col-sm-7">
+                <p class="star-rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                </p>
+            </div>
+            <div class="col-sm-5 pull-left">
+                {{ render_product_price(product, price_info, show_units=False) }}
+            </div>
         <div class="actions clearfix">
             <button type="button" class="btn btn-block text-muted" onclick="javascript:showPreview('{{ product.id }}')"><i class="fa fa-eye"></i> {% trans %}Preview{% endtrans %}</button>
         </div>
+    </div><!-- End .portfolio-meta -->
+</div><!-- End .portfolio-item -->
     </div>
 {% endmacro %}
 
@@ -282,15 +338,15 @@
     {% if product.is_variation_parent() %}
         {% set min_price, max_price = product.get_child_price_range(request) %}
         {% if min_price == max_price %}
-            <strong>{{ min_price|money if min_price else "" }}</strong>
+            <p class="price_color">{{ min_price|money if min_price else "" }}</p>
         {% else %}
-            <strong>{{ min_price|money }} - {{ max_price|money }}</strong>
+            <span class="label label-default">{% trans %}Start from{% endtrans %}</span><p class="price_color">{{ min_price|money }}</p>
         {% endif %}
     {% else %}
         {% if price_info.is_discounted %}
-            <small class="text-muted original-price original"><s>{{ price_info.base_price|money }}</s></small>
+            <span class="product-old-price">{{ price_info.base_price|money }}</span>
         {% endif %}
-        <strong>{{ price_info.price|money }}</strong>
+        <span class="label label-default">{% trans %}Start from{% endtrans %}</span><p class="price_color">{{ price_info.price|money }}</p>
     {% endif %}
     {% if show_units %}
     <small> / {{ product.sales_unit.short_name }}</small>

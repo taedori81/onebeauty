@@ -18,6 +18,7 @@ import dj_database_url
 from shoop.addons import add_enabled_addons
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_ROOT = os.path.join(BASE_DIR, '..')
 
 env = environ.Env()
 env_file = join(BASE_DIR, '..', '.env')
@@ -107,6 +108,10 @@ TEMPLATES = [
     {
         "BACKEND": "django_jinja.backend.Jinja2",
         "APP_DIRS": True,
+        "DIRS": [
+            os.path.join(PROJECT_ROOT, 'templates'),
+            os.path.join(PROJECT_ROOT, 'shop', 'templates')
+        ],
         "OPTIONS": {
             "match_extension": ".jinja",
             "context_processors": [
@@ -126,7 +131,10 @@ TEMPLATES = [
     },
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            os.path.join(PROJECT_ROOT, 'templates'),
+            os.path.join(PROJECT_ROOT, 'shop', 'templates')
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -143,7 +151,7 @@ TEMPLATES = [
         }
     },
 ]
-
+INTERNAL_IPS = ('127.0.0.1',)
 WSGI_APPLICATION = 'onebeauty.wsgi.application'
 
 

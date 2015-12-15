@@ -51,28 +51,28 @@
                                     <i class="menu-icon fa fa-user"></i> <span class="hidden-xs">{% trans %}Log in{% endtrans %}</span>
                                     <i class="dropdown-icon fa fa-angle-down"></i>
                                 </a>
-                                <ul class="dropdown-menu login" role="dropdown-menu" aria-labelledby="logindropdown">
-                                    <li>
+                                <ul class="dropdown-menu login" role="dropdown-menu" id="dropdown-content"  aria-labelledby="logindropdown">
+                                    <li class="login-window">
                                         <form role="form" method="post" action="{{ url("shoop:login") }}">
                                             {% csrf_token %}
                                             {% if request.resolver_match.url_name == "logout" %}{% set next="/" %}{% endif %}
-                                            <input type="hidden" name="next" value="{{ next or request.path }}">
-                                            <div class="form-group">
-                                                <label for="username">{% trans %}Email address{% endtrans %}</label>
+                                            <input type="hidden" name="next"  value="{{ next or request.path }}">
+                                            <div class="login-form-group">
+                                                <label for="username"  class="">{% trans %}Email address{% endtrans %}</label>
                                                 <input type="text" name="username" class="form-control">
                                             </div>
-                                            <div class="form-group">
-                                                <label for="password">{% trans %}Password{% endtrans %}</label>
+                                            <div class="login-form-group">
+                                                <label for="password" class="">{% trans %}Password{% endtrans %}</label>
                                                 <input type="password" name="password" class="form-control">
                                             </div>
-                                            <button type="submit" class="btn btn-primary btn-block">
-                                                {% trans %}Log in{% endtrans %}
+                                            <button type="submit" class="btn btn-custom btn-block no-radius" id="login-button">
+                                                {% trans %}Login Now{% endtrans %}
                                             </button>
                                         </form>
                                     </li>
-                                    <li class="divider"></li>
+                                    <div class="divider line"></div>
                                     {% if shoop.urls.has_url("shoop:recover_password") %}
-                                    <li>
+                                    <li class="login-window">
                                         <a href="{{ url("shoop:recover_password") }}">
                                             <i class="fa fa-question fa-fw"></i> {% trans %}Forgot your password?{% endtrans %}
                                         </a>
@@ -86,32 +86,32 @@
                                     </li>
                                     {% endif %}
                                 </ul>
-                             </li>
+                            </li>
                         {% endif %}
                     </ul>
                 </div><!-- End .pull-left -->
 
                 <div class="pull-right">
-{#                    <div class="social-icons pull-right hidden-xs">#}
-{#                        <a href="#" class="social-icon icon-facebook" title="Facebook">#}
-{#                            <i class="fa fa-facebook"></i>#}
-{#                        </a>#}
-{#                        <a href="#" class="social-icon icon-twitter" title="Twitter">#}
-{#                            <i class="fa fa-twitter"></i>#}
-{#                        </a>#}
-{#                        <a href="#" class="social-icon icon-google-plus" title="Google Plus">#}
-{#                            <i class="fa fa-google-plus"></i>#}
-{#                        </a>#}
-{#                        <a href="#" class="social-icon icon-dribbble" title="Dribbble">#}
-{#                            <i class="fa fa-dribbble"></i>#}
-{#                        </a>#}
-{#                        <a href="#" class="social-icon icon-reddit" title="Reddit">#}
-{#                            <i class="fa fa-reddit"></i>#}
-{#                        </a>#}
-{#                        <a href="#" class="social-icon icon-skype" title="Skype">#}
-{#                            <i class="fa fa-skype"></i>#}
-{#                        </a>#}
-{#                    </div><!-- End .social-icons -->#}
+                    <div class="social-icons pull-right hidden-xs">
+                        <a href="#" class="social-icon icon-facebook" title="Facebook">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                        <a href="#" class="social-icon icon-twitter" title="Twitter">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-icon icon-google-plus" title="Google Plus">
+                            <i class="fa fa-google-plus"></i>
+                        </a>
+                        <a href="#" class="social-icon icon-dribbble" title="Dribbble">
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                        <a href="#" class="social-icon icon-reddit" title="Reddit">
+                            <i class="fa fa-reddit"></i>
+                        </a>
+                        <a href="#" class="social-icon icon-skype" title="Skype">
+                            <i class="fa fa-skype"></i>
+                        </a>
+                    </div><!-- End .social-icons -->
 
                     <div class="dropdowns-container pull-right clearfix">
                         <div class="dropdown currency-dropdown pull-right">
@@ -164,9 +164,20 @@
                 <div class="collapse navbar-collapse" id="main-navbar-container">
                     <div class="container">
                         <ul class="nav navbar-nav">
-                            <li{% if request.path == "/" %} class="current"{% endif %}><a href="/">{% trans %}Home{% endtrans %}</a></li>
-                                {% set products_url = url('shoop:xtheme_extra_view', view='products') %}
-                                <li{% if request.path == products_url %} class="current"{% endif %}><a href="{{ products_url }}">{% trans %}Products{% endtrans %}</a></li>
+                            <li {% if request.path == "/" %} class="current"{% endif %}><a href="/">{% trans %}Home{% endtrans %}</a></li>
+                                {% for c in shoop.general.get_root_categories() recursive %}
+                                    {% set children = c.get_children() %}
+                                    <li{% if category and c == category %} class="current-page"{% endif %}>
+                                        {% if children %}
+                                            <li class="dropdown">
+                                                <a class="dropdown-toggle"  data-toggle="dropdown" role="button" aria-expanded="false" href="{{ url("shoop:category", pk=c.pk, slug=c.slug) }}"> {{ c }}<span class="angle"></span></a>
+                                                <ul class="dropdown-menu" role="menu">{{ loop(children) }}</ul>
+                                            </li>
+                                        {% else %}
+                                            <li><a href="{{ url("shoop:category", pk=c.pk, slug=c.slug) }}">{{ c }}</a></li>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
                                 {% if shoop.simple_cms %}
                                     {% for link in xtheme.get_cms_navigation_links() %}
                                         <li{% if request.path == "%s/" % link.url %} class="current"{% endif %}><a href="{{ link.url }}">{{ link.text }}</a></li>
