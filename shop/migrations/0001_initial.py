@@ -7,7 +7,6 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shoop', '0012_add_configurations'),
     ]
 
     operations = [
