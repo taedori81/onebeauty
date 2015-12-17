@@ -158,7 +158,7 @@
   border: 1px solid rgba(153, 103, 148, 0.22);
 }
 input[type="text"][id*="quantity"], input[type="number"][id*="quantity"] {
-    max-width: 55px;
+    max-width: 100%;
 }
 .form-control {
     background-color: #ffffff;
@@ -372,4 +372,6 @@ input[type="text"][id*="quantity"], input[type="number"][id*="quantity"] {
     display:none
 }
 
-
+.text-muted {
+    color: #a4b1c2;
+}

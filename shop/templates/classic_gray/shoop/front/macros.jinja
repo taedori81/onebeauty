@@ -7,6 +7,7 @@
     {% endif %}
     <div class="product text-center">
 
+
          <div class="product-top">
 {#               <span class="product-box new-box new-box-border">New</span>#}
              {% if show_image %}
@@ -18,12 +19,8 @@
                      <a href="{{ u }}" title="{{ product.name }}">
                          {% set primary_image_thumb = product.primary_image|thumbnail(size=thumbnail_size) %}
                          <img src="{% if product.primary_image %}{{ primary_image_thumb }}{% else %}{{ STATIC_URL }}classic_gray/img/no_image.png{% endif %}" alt="{{ product.name }}" class="product-image product-image-list" style="">
-
-{#                         {% with image=product.secondary_image %}#}
-{#                             {% thumbnail image.original "x250" upscale=False as thumb %}#}
-{#                                 <img src="{{ thumb.url }}" alt="{{ product.get_title }}" class="product-image-hover product-image-hover-list">#}
-{#                             {% endthumbnail %}#}
-{#                         {% endwith %}#}
+{#                         {% set secondary_image = product.myproduct.secondary_image() %}#}
+                         <img src="{{ primary_image_thumb }}" alt="{{ product.name}}" class="product-image-hover product-image-hover-list">
                      </a>
                  </figure>
              {% endif %}

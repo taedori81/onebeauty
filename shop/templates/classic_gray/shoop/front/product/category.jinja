@@ -169,12 +169,24 @@
     </div><!-- End .filter-row -->
     <div id="ajax_content">
         {% block ajax_content %}
-            {%  set pagination = shoop.general.get_pagination_variables(products, 2) %}
-            <div class="row masonry-grid-fitrows">
+            {%  set pagination = shoop.general.get_pagination_variables(products, 12) %}
+            <div class="row masonry-grid-fitrows filter-grid sort-grid">
+
+
                 {% for product in pagination.objects if shoop.product.is_visible(product) %}
-                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 masonry-grid-item ">
+                    {% set variation_variables = product.variation_variables.all().prefetch_related("values") %}
+
+                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 masonry-grid-item product-item
+                    {% for var in variation_variables %}
+                        {% for vv in var.values.all() %}
+                            {{ vv.value }}
+                        {% endfor %}
+                     {% endfor %}
+                     ">
+
                         {{ macros.product_box(product, show_image=True, show_description=True, class="product-item") }}
                     </div>
+
                 {% endfor %}
             </div>
             <div class="clearfix">
