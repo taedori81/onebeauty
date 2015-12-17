@@ -1,47 +1,42 @@
-<li class="dropdown cart">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        <i class="menu-icon fa fa-shopping-cart"></i>
-        <span class="hidden-xs">{% trans %}Cart{% endtrans %}</span>
-        <span>({{ request.basket.product_count }})</span>
-        <i class="dropdown-icon fa fa-angle-down"></i>
-    </a>
-    <div class="dropdown-menu cart">
-        {% if request.basket.get_lines() %}
-            <table class="table">
-                <colgroup>
-                    <col style="min-width: 180px;">
-                    <col style="min-width: 90px;">
-                </colgroup>
-                <thead>
-                    <tr>
-                        <th>{% trans %}Items{% endtrans %}</th>
-                        <th class="text-right">{% trans %}Price{% endtrans %}</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th>
-                            {% trans %}Total{% endtrans %}
-                        </th>
-                        <th class="text-right">
-                            {{ request.basket.total_price|money }}
-                        </th>
-                    </tr>
-                </tfoot>
-                <tbody>
-                    {% for line in request.basket.get_lines() %}
-                        <tr>
-                            <td>{{ line.quantity|number }} &times; <a href="{{ shoop.urls.model_url(line.product) }}">{{ line.text }}</a></td>
-                            <td class="text-right">{{ line.price|money }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <a href="{{ url("shoop:basket") }}" class="btn btn-block btn-primary btn-view-cart">
-                {% trans %}View cart{% endtrans %} <i class="fa fa-angle-double-right"></i>
-            </a>
-        {% else %}
-            <span class="empty-cart"><i class="fa fa-exclamation-circle text-warning"></i> {% trans %}Your shopping cart is empty.{% endtrans %}</span>
-        {% endif %}
-    </div>
-</li>
+<button type="button" class="navbar-btn btn-icon btn-circle dropdown-toggle" data-toggle="dropdown"><i class="fa fa-shopping-cart"></i>
+    <span class="badge">{{ request.basket.product_count }}</span>
+</button>
+<div class="dropdown-menu cart-dropdown-menu" role="menu" >
+    {% if request.basket.get_lines() %}
+        <p class="cart-dropdown-desc"><i class="fa fa-cart-plus"></i>You have <span class="label label-custom">{{ request.basket.product_count }}</span> product(s) in your cart:</p>
+        <hr>
+        {% for line in request.basket.get_lines() %}
+            <div class="product clearfix">
+                <figure>
+                    {% set thumb = line.product.primary_image|thumbnail(size=(70,70)) %}
+                    <a href="{{ shoop.urls.model_url(line.product) }}" title="{{ line.product.name }}">
+                        <img class="img-responsive" src="{{ thumb }}" alt="{{ line.text }}">
+                    </a>
+                </figure>
+                <div class="product-meta">
+                    <h4 class="product-name">
+                        <a href="{{ shoop.urls.model_url(line.product) }}">{{ line.text }}</a>
+                    </h4>
+                    <div class="product-quantity">x {{ line.quantity|number }} piece(s)</div><!-- End .product-quantity -->
+                    <div class="product-price-container">
+                        <span class="product-price">{{ line.price|money }}</span>
+                        <span class="product-old-price">$120.50</span>
+                    </div><!-- End .product-price-container -->
+                </div><!-- End .product-meta -->
+            </div><!-- End .product -->
+        {% endfor %}
+    {% else %}
+        <p class="cart-dropdown-desc"><i class="fa fa-cart-plus"></i>You have no product in your cart:</p>
+    {% endif %}
+
+    <hr>
+    <div class="cart-action">
+        <div class="pull-right cart-action-total">
+            <span>{% trans %}Total:{% endtrans %}</span> {{ request.basket.total_price|money }}
+        </div><!-- End .pull-left -->
+        <div class="pull-left">
+            <a href="{{ url("shoop:basket") }}" class="btn btn-custom btn-sm">{% trans %}View Basket{% endtrans %}</a>
+{#            <a href="{% url 'checkout:index' %}" class="btn btn-custom btn-sm">{% trans %}Checkout{% endtrans %}</a>#}
+        </div>
+    </div><!-- End .cart-action -->
+</div><!-- End .dropdown-menu -->

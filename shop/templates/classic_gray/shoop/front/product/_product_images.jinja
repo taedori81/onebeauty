@@ -1,24 +1,15 @@
 <div id="carousel_product_{{ product.id }}" class="product-gallery-container">
-
     {% set product_image_cropped = primary_image|thumbnail(size=(700, 700)) %}
     <div class="product-top">
-
         <img id="product-zoom" src="{{ product_image_cropped }}" alt="{{ product.name }}"/>
-
     </div><!-- End .product-top -->
-
         <div class="product-gallery-wrapper">
-
             <div class="owl-carousel product-gallery product-gallery-lg">
                 {% for product_image in images %}
                     <a href="#" data-image="{{ product_image.url }}" data-zoom-image="{{ product_image.url }}" class="product-gallery-item">
-
                         <img src="{{ product_image.url }}" alt="product-small-1">
-
                     </a>
                 {% endfor %}
             </div>
-
         </div>
-
 </div>

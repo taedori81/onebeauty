@@ -6,8 +6,6 @@
         {% set price_info = product.get_price_info(request) %}
     {% endif %}
     <div class="product text-center">
-
-
          <div class="product-top">
 {#               <span class="product-box new-box new-box-border">New</span>#}
              {% if show_image %}
@@ -25,7 +23,7 @@
                  </figure>
              {% endif %}
              <div class="product-action-container each-btn-animate">
-                 <a href="{{ u }}" class="btn btn-dark quick-view" title="Quick View"><i class="fa fa-search-plus"></i></a>
+                 <a href="#" class="btn btn-dark quick-view" title="Quick View" onclick="javascript:showPreview('{{ product.id }}')"><i class="fa fa-eye"></i></a>
              </div><!-- end .product-action-container -->
          </div><!-- End .product-top -->
 
@@ -80,7 +78,7 @@
                 {{ render_product_price(product, price_info, show_units=False) }}
             </div>
         <div class="actions clearfix">
-            <button type="button" class="btn btn-block text-muted" onclick="javascript:showPreview('{{ product.id }}')"><i class="fa fa-eye"></i> {% trans %}Preview{% endtrans %}</button>
+            <button type="button" class="btn btn-block no-radius btn-custom" onclick="javascript:showPreview('{{ product.id }}')"><i class="fa fa-eye"></i> {% trans %}Preview{% endtrans %}</button>
         </div>
     </div><!-- End .portfolio-meta -->
 </div><!-- End .portfolio-item -->
@@ -346,7 +344,7 @@
         <span class="label label-default">{% trans %}Start from{% endtrans %}</span><p class="price_color">{{ price_info.price|money }}</p>
     {% endif %}
     {% if show_units %}
-    <small> / {{ product.sales_unit.short_name }}</small>
+{#    <small> / {{ product.sales_unit.short_name }}</small>#}
     {% endif %}
     </span>
 </div>

@@ -188,9 +188,8 @@
                         <button type="button" class="navbar-btn btn-icon btn-circle pull-right last" data-toggle="collapse" data-target="#header-search-form"><i class="fa fa-search"></i></button>
 
                     {% block mini_basket %}
-                        <div class="dropdown cart-dropdown pull-right">
-                            <button type="button" class="navbar-btn btn-icon btn-circle dropdown-toggle" data-toggle="dropdown"><i class="fa fa-shopping-cart"></i></button>
-{#                            {% include 'basket/partials/basket_quick.html' %}#}
+                        <div class="dropdown cart-dropdown pull-right" id="navigation-basket-partial">
+                        {% include "classic_gray/navigation_basket_partial.jinja" with context %}
                         </div><!-- End .cart-dropdown -->
                     {% endblock %}
                     </div><!-- End .container -->
