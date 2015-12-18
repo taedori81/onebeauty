@@ -12,7 +12,7 @@ class MyProduct(models.Model):
 
     def secondary_image(self):
         shop = Shop.objects.first()
-        product = Product.objects.first()
+        product = self.product
         shop_product = product.get_shop_instance(shop)
         images = list(shop_product.images.all())
         if len(images) > 1:

@@ -35,7 +35,7 @@
             <span>{% trans %}Total:{% endtrans %}</span> {{ request.basket.total_price|money }}
         </div><!-- End .pull-left -->
         <div class="pull-left">
-            <a href="{{ url("shoop:basket") }}" class="btn btn-custom btn-sm">{% trans %}View Basket{% endtrans %}</a>
+            <a href="{{ url("shoop:basket") }}" class="btn btn-custom btn-block no-radius">{% trans %}View Basket{% endtrans %}</a>
 {#            <a href="{% url 'checkout:index' %}" class="btn btn-custom btn-sm">{% trans %}Checkout{% endtrans %}</a>#}
         </div>
     </div><!-- End .cart-action -->

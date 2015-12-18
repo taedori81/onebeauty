@@ -29,7 +29,9 @@
                    {% endblock %}
                </div>
                <div id="content_inner">
+                   {% block before_content_title %}{% endblock %}
                    {% block content_inner %}
+
                         <div class="col-md-9 col-md-push-3">
                            {% block column_right %}
                            {% endblock %}

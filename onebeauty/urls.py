@@ -26,6 +26,7 @@ urlpatterns = patterns(
     url(r'^admin/', include(admin.site.urls)),
     url(r'^sa/', include('shoop.admin.urls', namespace="shoop_admin", app_name="shoop_admin")),
     url(r'^api/', include('shoop.api.urls')),
+    url(r'^ratings/', include('star_ratings.urls', namespace='ratings', app_name='ratings')),
     url(r'^', include('shoop.front.urls', namespace="shoop", app_name="shoop")),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

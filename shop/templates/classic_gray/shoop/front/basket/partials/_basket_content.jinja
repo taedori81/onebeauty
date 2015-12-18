@@ -1,0 +1,28 @@
+{% import "classic_gray/shoop/front/macros.jinja" as macros with context %}
+<div class="container basket-items">
+    <div class="row">
+        <div class="col-md-12">
+            <form action="{{ url("shoop:basket") }}" method="post" class="basket_summary" id="update_basket_form">
+                <input type="hidden" name="command" value="update">
+                {% csrf_token %}
+                <div class="">
+                    {% for line in basket.get_final_lines() %}
+                        {{ macros.product_box_for_basket(line) }}
+                    {% endfor %}
+                </div><!-- End  -->
+                <div class="basket-summary">
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-6">
+                            <hr>
+                            <div class="row">
+                                <div class="col-xs-6"><h2 class="title-border custom mb30">{% trans %}Total{% endtrans %}</h2></div>
+                                <div class="total-price text-right col-xs-6"><h2>{{ basket.total_price|money }}</h2></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div><!-- End .col-md-12 -->
+    </div><!-- End .row -->
+</div><!-- End .container -->

@@ -17,8 +17,8 @@
                      <a href="{{ u }}" title="{{ product.name }}">
                          {% set primary_image_thumb = product.primary_image|thumbnail(size=thumbnail_size) %}
                          <img src="{% if product.primary_image %}{{ primary_image_thumb }}{% else %}{{ STATIC_URL }}classic_gray/img/no_image.png{% endif %}" alt="{{ product.name }}" class="product-image product-image-list" style="">
-{#                         {% set secondary_image = product.myproduct.secondary_image() %}#}
-                         <img src="{{ primary_image_thumb }}" alt="{{ product.name}}" class="product-image-hover product-image-hover-list">
+                         {% set secondary_image_thumb = product.myproduct.secondary_image()|thumbnail(size=thumbnail_size) %}
+                         <img src="{{ secondary_image_thumb }}" alt="{{ product.name}}" class="product-image-hover product-image-hover-list">
                      </a>
                  </figure>
              {% endif %}
@@ -35,11 +35,99 @@
               <i class="icon-star"></i>
               <i class="icon-star"></i>
               <i class="icon-star"></i>
+
          </p>
         {{ render_product_price(product, price_info, show_units=False) }}
       <!-- Go to Detail Page -->
      <a href="{{ u }}" class="btn btn-block btn-custom no-radius add-to-cart">{% trans %}Details{% endtrans %}</a>
     </div><!-- End .product -->
+{% endmacro %}
+
+{% macro product_box_for_basket(line, thumbnail_size=(150, 200)) %}
+<div class="row single-item">
+    {% set product = line.product %}
+    {% set shop_product = line.shop_product %}
+    {% if product.is_variation_parent()  %}
+        {% set price_info = product.get_cheapest_child_price_info(request) %}
+    {% else %}
+        {% set price_info = product.get_price_info(request) %}
+    {% endif %}
+     <div class="product clearfix col-sm-6">
+         <div class="row">
+             <div class="product-top col-sm-3">
+                 {% if product %}
+                 {% set image = product.primary_image %}
+                     {% if image %}
+                         <figure>
+                             <a href="{{ shoop.urls.model_url(product) }}" title="{{ product.name }}">
+                                 <img src="{{ image|thumbnail(size=thumbnail_size) }}" alt="{{ line.text }}" class="product-image">
+                                   {% set secondary_image = product.myproduct.secondary_image() %}
+                                 {% if secondary_image %}
+                                     <img src="{{ secondary_image|thumbnail(size=(150, 200)) }}" alt="{{ line.text }}" class="product-image-hover">
+                                 {% endif %}
+                             </a>
+                         </figure>
+                     {% endif %}
+                 {% endif %}
+             </div><!-- End .product-top -->
+             <div class="product-meta col-sm-9">
+                 <h2 class="product-title">
+                     {% if product %}<a href="{{ shoop.urls.model_url(product) }}" title="{{ line.text }}">
+                         {{ line.text }}
+                     </a>
+                     {% else %}
+                         {{ lline.text }}
+                     {% endif %}
+                 </h2>
+                 {% block product_review %}
+                     <p class="star-rating">
+                         <i class="icon-star"></i>
+                         <i class="icon-star"></i>
+                         <i class="icon-star"></i>
+                         <i class="icon-star"></i>
+                         <i class="icon-star"></i>
+                     </p>
+                 {% endblock %}
+                 <ul class="product-desc-list">
+                     <li class="price_color">{{ render_product_price(product, price_info, show_units=False) }}</li>
+                 </ul>
+             </div><!-- End .product-meta -->
+         </div>
+
+     </div><!-- End .product -->
+     <div class="checkout-quantity col-sm-2 quantity">
+         {% if product and line.can_change_quantity %}
+             <div class="input-group">
+                 <div class="input-group-addon">
+                     {% trans %}Qty{% endtrans %}
+                 </div>
+                 <input id="qty_{{ line.line_id }}"
+                        type="number"
+                        name="q_{{ line.line_id }}"
+                        size="2"
+                        class="line_quantity form-control"
+                        step="{{ shop_product.quantity_step }}"
+                        value="{{ line.quantity }}"
+                        min="{{ shop_product.rounded_minimum_purchase_quantity }}">
+             </div>
+         {% endif %}
+     </div>
+     <div class="col-sm-3">
+         <h4 class="price text-right">
+             <small>{% trans %}Total{% endtrans %}: </small>{{ line.price|money }}
+             {% if line.is_discounted %}
+                 <br><small><s class="text-muted">{{ line.base_price|money }}</s></small>
+             {% endif %}
+         </h4>
+     </div>
+     <div class="delete col-sm-1">
+         {% if line.can_delete %}
+             <button type="submit" class="btn btn-sm pull-right" name="delete_{{ line.line_id }}" title="{% trans %}Remove product from basket{% endtrans %}">
+                 <i class="fa fa-times"></i>
+             </button>
+         {% endif %}
+     </div>
+ </div>
 {% endmacro %}
 
 {% macro product_box_for_front(product, show_image=True, show_description=True, class="portfolio-item", thumbnail_size=(500,500)) %}

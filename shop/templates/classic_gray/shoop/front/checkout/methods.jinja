@@ -1,0 +1,39 @@
+{% extends "shoop/front/checkout/_base.jinja" %}
+
+{% block content_inner %}
+<form role="form" method="post" action="">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title">
+                        {% trans %}Shipping{% endtrans %}
+                    </h2>
+                </div>
+                <div class="panel-body">
+                    {{ bs3.field(form.shipping_method) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title">
+                        {% trans %}Payment{% endtrans %}
+                    </h2>
+                </div>
+                <div class="panel-body">
+                    {{ bs3.field(form.payment_method) }}
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix">
+        <button type="submit" class="btn btn-custom no-radius btn-lg pull-right">
+            <i class="fa fa-check"></i> {% trans %}Continue{% endtrans %}
+        </button>
+    </div>
+</form>
+{% endblock %}
