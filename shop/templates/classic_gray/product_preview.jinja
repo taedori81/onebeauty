@@ -1,4 +1,5 @@
 {%- import "shoop/front/macros.jinja" as macros with context -%}
+{%- import "star_ratings/widget.jinja" as ratings with context -%}
 {% set product_url = url("shoop:product", pk=product.pk, slug=product.slug) %}
 {% set priceinfo = product.get_price_info(request) %}
 <div class="product-preview-modal fade" id="product-{{ product.id }}-modal" tabindex="-1" role="dialog" aria-labelledby="product-{{ product.id }}-preview">
@@ -15,22 +16,27 @@
                           </span>
                         </div>
                     {% endif %}
+                    {% include "shoop/front/product/_product_images.jinja" with context %}
+{#                    {% set image = product.primary_image|thumbnail(size=(600,600)) %}#}
+{#                    {% if image %}#}
+{#                        <img src="{{ image }}" alt="{{ product.name }}" class="img-responsive">#}
+{#                    {% else %}#}
+{#                        <img src="{{ STATIC_URL }}classic_gray/img/no_image.png" alt="{{ product.name }}" class="img-responsive">#}
+{#                    {% endif %}#}
 
-                    {% set image = product.primary_image|thumbnail(size=(600,600)) %}
-                    {% if image %}
-                        <img src="{{ image }}" alt="{{ product.name }}" class="img-responsive">
-                    {% else %}
-                        <img src="{{ STATIC_URL }}classic_gray/img/no_image.png" alt="{{ product.name }}" class="img-responsive">
-                    {% endif %}
                 </div>
                 <div class="col-md-6 col-sm-7">
                     <h2>{{ product.name }}</h2>
                     {% if product.description %}<p class="description">{{ product.description|safe|truncate(150, False) }}</p>{% endif %}
+
+                    {% include "shoop/_rating_and_review.jinja" with context %}
+
                     <div class="product-price">
                         {{ macros.render_product_price(product, priceinfo) }}
                     </div>
                     <hr>
-                    {% include "shoop/front/product/_detail_order_section.jinja" with context %}
+                    {% include "shoop/front/product/_detail_order_section_preview.jinja" with context %}
+                    <div class="mb10"></div>
                     <a href="{{ product_url }}" class="btn-open-page btn btn-dark btn-block no-radius"><i class="fa fa-search"></i> {% trans %}Open product page{% endtrans %} <i class="fa fa-angle-double-right"></i></a>
                 </div>
             </div>

@@ -6,7 +6,7 @@
 {% endif %}
 
 {% block page_header_title %}
-<h1>{{ category.name }}</h1>
+<h1 class="page-header-title">{{ category.name }}</h1>
 <p class="page-header-desc">{{ category.description }}</p>
 {% endblock %}
 
@@ -22,7 +22,6 @@
 {% endblock %}
 
 {% block column_left %}
-
     <div class="widget">
         <div class="filter-group-widget">
             <div class="panel-group" role="tablist" aria-multiselectable="true">
@@ -183,7 +182,7 @@
                         {% endfor %}
                      {% endfor %}
                      ">
-                        {{ macros.product_box(product, show_image=True, show_description=True, class="product-item") }}
+                        {{ macros.product_box_for_category(product, show_image=True, show_description=True, class="product-item") }}
                     </div>
 
                 {% endfor %}

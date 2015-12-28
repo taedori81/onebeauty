@@ -1,0 +1,11 @@
+<table>
+    {% for category, average_rating in category_averages.items() %}
+        <tr>
+            <th>{{ category.name }}:</th><td>{{ average_rating|float }}</td>
+        </tr>
+    {% endfor %}
+    <tr>
+        {% set review_amount = get_review_count(review_amount) %}
+        <th>{% trans "Amount of reviews" %}:</th><td>{{ review_amount }}</td>
+    </tr>
+</table>

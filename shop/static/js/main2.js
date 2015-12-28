@@ -6,6 +6,8 @@
 		initialised: false,
 		mobile: false,
 		container : $('#portfolio-item-container'),
+		container1 : $('#portfolio-item-container-1'),
+		container2 : $('#portfolio-item-container-2'),
 		blogContainer: $('#blog-item-container'),
 		portfolioElAnimation: true,
 		init: function () {
@@ -85,6 +87,22 @@
 					self.isotopeFilter();
 
 					self.infiniteScroll( $('#portfolio-item-container') , '.portfolio-item');
+				});
+
+				imagesLoaded(self.container1, function() {
+					self.isotopeActivate();
+					// recall for plugin support
+					self.isotopeFilter();
+
+					self.infiniteScroll( $('#portfolio-item-container-1') , '.portfolio-item');
+				});
+
+				imagesLoaded(self.container2, function() {
+					self.isotopeActivate();
+					// recall for plugin support
+					self.isotopeFilter();
+
+					self.infiniteScroll( $('#portfolio-item-container-2') , '.portfolio-item');
 				});
 
 				/* check images for blog masonry/grid */
@@ -1919,6 +1937,24 @@
                 	transitionDuration: 0
             	});
 
+				var container1 = this.container1,
+					layoutMode = container1.data('layoutmode');
+
+				container1.isotope({
+                	itemSelector: '.portfolio-item',
+                	layoutMode: (layoutMode) ? layoutMode : 'masonry',
+                	transitionDuration: 0
+            	});
+
+				var container2 = this.container2,
+					layoutMode = container2.data('layoutmode');
+
+				container2.isotope({
+                	itemSelector: '.portfolio-item',
+                	layoutMode: (layoutMode) ? layoutMode : 'masonry',
+                	transitionDuration: 0
+            	});
+
             	
 			}
 		},
@@ -1926,6 +1962,8 @@
 			// Recall for isotope plugin
 			if($.fn.isotope) {
 				this.container.isotope('destroy');
+				this.container1.isotope('destroy');
+				this.container2.isotope('destroy');
 				this.isotopeActivate();
 			}
 		},
@@ -1942,6 +1980,18 @@
 
 				// And filter now
 				self.container.isotope({
+					filter: selector,
+					transitionDuration: '0.8s'
+				});
+
+				// And filter now
+				self.container1.isotope({
+					filter: selector,
+					transitionDuration: '0.8s'
+				});
+
+				// And filter now
+				self.container2.isotope({
 					filter: selector,
 					transitionDuration: '0.8s'
 				});

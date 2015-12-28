@@ -1,0 +1,92 @@
+{% macro star_ratings(product) %}
+{% set dict = ratings(request, product) %}
+    {% set rating = dict.get('rating') %}
+    {% set id = dict.get('id') %}
+    {% set star_count = dict.get('star_count') %}
+    {% set stars = dict.get('stars') %}
+    {% set percentage = dict.get('percentage') %}
+    {% set user = request.user %}
+    {% set user_rating = dict.get('user_rating') %}
+    {% set icon_height = dict.get('icon_height') %}
+    {% set icon_width = dict.get('icon_width') %}
+    <style>
+        #{{ id }} .star-ratings-rating-full, #{{ id }} .star-ratings-rating-empty {
+            width: {{ icon_width }}px;
+            height: {{ icon_height }}px;
+        }
+
+        #{{ id }} .star-ratings-rating-empty {
+            background-position: -{{ icon_width }}px 0;
+        }
+
+        {% if user.is_authenticated %}
+        #{{ id }} .star-ratings-rating-full:hover, #{{ id }} .star-ratings-rating-empty:hover {
+            background-position: -{{ icon_width }}px 0;
+        }
+        {% endif %}
+    </style>
+    <div id="{{ id }}" class="star-ratings" data-max-rating="{{ star_count }}" data-avg-rating="{{ rating.average|float }}">
+        <ul class="star-ratings-rating-background">
+            {% for star in stars %}
+                <li>
+                    {% if user.is_authenticated() %}
+                    <a href="{{ url('ratings:rate', rating.content_type_id, rating.object_id) }}?return={{ request.path }}" data-score="{{ star }}" class="star-ratings-rate-action">
+                        <span class="star-ratings-rating-empty"></span>
+                    </a>
+                    {% else %}
+                        <span class="star-ratings-rating-empty" title="">{% trans %}{% endtrans %}</span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+
+        <ul class="star-ratings-rating-foreground" style="width: {{ percentage }}%" title="{{ rating.average|float }} out of 5 stars" >
+            {% for star in stars %}
+                <li>
+                {% if user.is_authenticated() %}
+                <a href="{{ url('ratings:rate', rating.content_type_id, rating.object_id) }}?return={{ request.path }}" data-score="{{ star }}" class="star-ratings-rate-action">
+                    <span class="star-ratings-rating-full"></span>
+                </a>
+                {% else %}
+                    <span class="star-ratings-rating-full" title="{{ rating.average|float }} out of 5 stars">{% trans %}{% endtrans %}</span>
+                {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+
+    {#    <div class="star-ratings-rating-average">{% trans %}Average:{% endtrans %} <span class='star-ratings-rating-value'>{{ rating.average }}</span></div>#}
+
+        <div class="star-ratings-rating-count"><small>{% trans %}Rating Count: {% endtrans %}</small> <span class='star-ratings-rating-value highlight third-color'>{{ rating.count }}</span></div>
+
+        <div class="star-ratings-rating-user"><small>{% trans %}You Rated: {% endtrans %}</small><span class='star-ratings-rating-value highlight third-color'>{% if user_rating %}{{ user_rating.score }}{% else %}{% trans %}Not rated{% endtrans %}{% endif %}</span></div>
+        {% if not user.is_authenticated() %}
+            <p>{% trans %}Please log in to rate.{% endtrans %}</p>
+
+        {% endif %}
+
+        <div class="star-ratings-errors"></div>
+
+    </div>
+{% endmacro %}
+
+
+{% macro star_ratings_short(product) %}
+{% set product_url = url("shoop:product", pk=product.pk, slug=product.slug) %}
+{% set dict = ratings(request, product) %}
+    {% set rating = dict.get('rating') %}
+    {% set id = dict.get('id') %}
+    {% set star_count = dict.get('star_count') %}
+    {% set stars = dict.get('stars') %}
+    {% set percentage = dict.get('percentage') %}
+    {% set user = request.user %}
+    {% set user_rating = dict.get('user_rating') %}
+    {% set icon_height = dict.get('icon_height') %}
+    {% set icon_width = dict.get('icon_width') %}
+<div class="product-ratings-container">
+    <a href="{{ product_url }}#reviews" class="product-ratings add-tooltip" title="{{ rating.average|float }}">
+        <span class="ratings" style="width:{{ percentage|int }}%" >
+            <span class="ratings-text sr-only">{{ rating.count }} Rating(s)</span>
+        </span><!-- End .ratings -->
+    </a><!-- End .product-ratings -->
+</div><!-- End .product-ratings-container -->
+{% endmacro %}

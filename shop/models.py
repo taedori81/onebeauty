@@ -1,10 +1,10 @@
 from django.db import models
 from django.db.models import signals
+from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
 
 from shoop.core import models as shoop_models
 from shoop.core.models import Shop, Product
-
-from annoying.fields import AutoOneToOneField
 
 
 class MyProduct(models.Model):
@@ -20,6 +20,13 @@ class MyProduct(models.Model):
         else:
             secondary_image = images[0]
         return secondary_image
+
+    def all_images(self):
+        shop = Shop.objects.first()
+        product = self.product
+        shop_product = product.get_shop_instance(shop)
+        images = list(shop_product.images.all())
+        return images
 
 
 def create_myproduct(sender, instance, created, **kwargs):

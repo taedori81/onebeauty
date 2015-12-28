@@ -1,8 +1,26 @@
 {%- import "shoop/front/macros.jinja" as macros with context -%}
-
-{% if title %}<h2>{{ title }}</h2>{% endif %}
-<div id="portfolio-item-container" class="max-col-5 popup-gallery graybg">
-   {% for product in products if shoop.product.is_visible(product) %}
-       {{ macros.product_box_for_front(product) }}
-   {% endfor %}
-</div>
+{% if title == "Newest Products" %}
+    {% if title %}<h2 class="title-underblock title-bottom-border dashed custom first-color text-right">{{ title }}</h2>{% endif %}
+    <div class="mb40"></div>
+    <div id="portfolio-item-container" class="max-col-4 popup-gallery" data-layoutmode="fitRows">
+       {% for product in products if shoop.product.is_visible(product) %}
+           {{ macros.product_box_for_front_2(product) }}
+       {% endfor %}
+    </div>
+{% elif title == "Best Selling Products" %}
+    {% if title %}<h2 class="title-underblock title-bottom-border dashed custom first-color text-right">{{ title }}</h2>{% endif %}
+    <div class="mb40"></div>
+    <div id="portfolio-item-container-1" class="max-col-4 popup-gallery" data-layoutmode="fitRows">
+       {% for product in products if shoop.product.is_visible(product) %}
+           {{ macros.product_box_for_front_2(product) }}
+       {% endfor %}
+    </div>
+{% elif title == "Random Products" %}
+    {% if title %}<h2 class="title-underblock title-bottom-border dashed custom first-color text-right">{{ title }}</h2>{% endif %}
+    <div class="mb40"></div>
+    <div id="portfolio-item-container-2" class="max-col-4 popup-gallery" data-layoutmode="fitRows">
+       {% for product in products if shoop.product.is_visible(product) %}
+           {{ macros.product_box_for_front_2(product) }}
+       {% endfor %}
+    </div>
+{% endif %}

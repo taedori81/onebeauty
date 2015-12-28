@@ -1,4 +1,5 @@
 {% extends "shoop/front/layout_2_col.jinja" %}
+{% import "star_ratings/widget.jinja" as ratings with context %}
 
 {% if product.is_variation_parent()  %}
     {% set priceinfo = product.get_cheapest_child_price_info(request) %}
@@ -20,7 +21,7 @@
 {% block content_title %}{% endblock %}
 
 {% block page_header_title %}
-<h1>{{ category.name }}</h1>
+<h1 class="page-header-title">{{ category.name }}</h1>
 <p class="page-header-desc">{{ category.description }}</p>
 {% endblock %}
 
@@ -52,9 +53,11 @@
             <div class="product-details">
                 <h2 class="product-title">{{ product.name }}</h2>
                 <div class="product-cats">
-
+                    <a href="" class=""></a>
                 </div><!-- End .product-cats -->
-
+                <div class="">
+                    {{ product.description }}
+                </div>
                 <div class="product-price-container">
                     {{ macros.render_product_price(product, priceinfo) }}
 
@@ -68,6 +71,29 @@
                             </div>
                         {% endif %}
                     </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        {{ ratings.star_ratings_short(product) }}
+                        {% if user.is_authenticated() %}
+                            {% if user_has_reviewed(product, request.user) %}
+                                {% trans %}You reviewd this product{% endtrans %}
+                                <div class="mb10"></div>
+                                <p class="product-ratings-count"><a href="#reviews">{{ get_review_count(product) }} Review(s)</a></p>
+                            {% else %}
+                                <a href="{{ url("review_create", content_type='product', object_id=product.id) }}" class="btn btn-custom btn-sm no-radius">{% trans %}Write a Review{% endtrans %}</a>
+    {#                            <a href="#" onclick="javascript:showReviewForm('product', {{ product.id }})" class="btn btn-custom btn-sm no-radius">{% trans %}Write Review{% endtrans %}</a>#}
+    {#                            <a href="{{ url("review_create", content_type='product', object_id= product.id) }}">{% trans %}Review this book{% endtrans %}</a>#}
+                            {% endif %}
+
+                        {% else %}
+                            <p class="product-ratings-count"><a href="#reviews">{{ get_review_count(product) }} Review(s)</a></p>
+                            <p>Log in to write a Review</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-sm-6">
+
+                    </div>
+                </div>
 
                 </div><!-- End .product-price-container -->
 
@@ -106,7 +132,7 @@
     <hr>
     <h3>{% trans %}Product Information{% endtrans %}</h3>
 {#    {% set media_files = product.get_public_media() %}#}
-    <div class="product-tabs" role="tabpanel">
+    <div class="product-tabs" role="tabpanel" id="tabpanel1">
         <ul class="nav nav-pills" role="tablist">
             <li role="presentation" class="active"><a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">{% trans %}Description{% endtrans %}</a></li>
             <li role="presentation"><a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">{% trans %}Details{% endtrans %}</a></li>
@@ -153,6 +179,21 @@
         </div>
     </div>
 
+    <div id="reviews">
+    <h1>This is Review</h1>
+    {% set reviews = get_reviews(product) %}
+        <h1>Review List</h1>
+        {% if user.is_authenticated() %}
+            {% if not user_has_reviewed(product, request.user) %}
+                  <a href="{{ url("review_create", content_type='product', object_id=product.id) }}" class="btn btn-custom btn-sm no-radius">{% trans %}Write a Review{% endtrans %}</a>
+            {% endif %}
+        {% endif %}
+        {% for review in reviews %}
+            <p>{{ review.user }}</p>
+            <p>{{ review.content }}</p>
+        {% endfor %}
+    </div>
+
     {% placeholder "product_extra_bottom" %}{% endplaceholder %}
 
     {% if package_children %}
@@ -177,7 +218,7 @@
             {% endfor %}
         </div>
     {% endif %}
-
+    <div class="mb60"></div>
     {{ macros.render_cross_sell_products(
         product, relation_type="related", title=_("Related products")
     ) }}

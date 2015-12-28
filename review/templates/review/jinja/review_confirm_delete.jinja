@@ -1,0 +1,11 @@
+{% extends "base.jinja" %}
+
+{% block title %}{% trans %}Delete review{% endtrans %}{% endblock %}
+
+{% block main %}
+    <h1>{% trans %}Delete review{% endtrans %}</h1>
+    <form method="post" action=".">
+        {% csrf_token %}
+        <input type="submit" value="{% trans %}Delete{% endtrans %}" />
+    </form>
+{% endblock %}

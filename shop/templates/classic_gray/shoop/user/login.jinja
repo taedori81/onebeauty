@@ -1,0 +1,55 @@
+{% extends "shoop/front/layout_2_col.jinja" %}
+{% from "shoop/front/macros.jinja" import render_field with context %}
+
+{% block title %}{% trans %}Log in{% endtrans %}{% endblock %}
+{% block content_title %}{% endblock %}
+
+{% block page_header_title %}
+<h1>{% trans %}Login or Register{% endtrans %}</h1>
+{% endblock %}
+{% block content_inner %}
+
+    {% if user.is_authenticated() %}
+        <h1 class="page-header">
+            {% trans %}Log in{% endtrans %}
+        </h1>
+        <p class="lead">
+            {% trans %}You have already been logged in as{% endtrans %} <strong>{% if user.first_name or user.last_name %}{{ user.get_full_name() }}{% else %}{{ user }}{% endif %}</strong>
+        </p>
+        <a href="/" class="btn btn-custom no-radius"><i class="fa fa-angle-double-left"></i> {% trans %}Go to Homepage{% endtrans %}</a>
+    {% else %}
+        <div class="row">
+            <div class="col-sm-8 col-sm-push-2 col-md-6 col-md-push-3">
+                <h1 class="page-header text-center">
+                    {% trans %}Log in{% endtrans %}
+                </h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-8 col-sm-push-2 col-md-6 col-md-push-3">
+                <div class="well">
+                    {% for error in form.non_field_errors() %}
+                        {{ macros.alert(error, mode="danger") }}
+                    {% endfor %}
+                    <form role="form" method="post" action="{{ request.path }}">
+                        {% csrf_token %}
+                        {% for f in form.hidden_fields() %}{{ f }}{% endfor %}
+                        {{ render_field(form.username) }}
+                        {{ render_field(form.password) }}
+                        <button type="submit" class="btn btn-custom no-radius btn-block"><i class="fa fa-sign-in"></i> {% trans %}Log in{% endtrans %}</button>
+                        <hr>
+                        <a href="{{ url("shoop:recover_password") }}">
+                            {% trans %}Forgot your password?{% endtrans %}
+                        </a>
+                    </form>
+                </div>
+                {% if shoop.urls.has_url("shoop:registration_register") %}
+                    <a class="col-sm-12 text-center text-muted" href="{{ url("shoop:registration_register") }}">
+                        {% trans %}New user? Register here!{% endtrans %}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}

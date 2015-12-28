@@ -1,80 +1,5 @@
-.reviewrating .star-rating {
-  margin-bottom: 10px;
-  font-size: 280%;
-}
-.reviewrating .star-rating i {
-  cursor: pointer;
-}
-.star-rating {
-  color: #CBCBCB;
-}
-.star-rating i {
-  letter-spacing: -1px;
-  width: auto;
-}
-.star-rating a {
-  margin-left: 10px;
-}
-.star-rating.One i:first-child {
-  color: #E6CE31;
-}
-.star-rating.Two i:first-child,
-.star-rating.Two i:first-child + i {
-  color: #E6CE31;
-}
-.star-rating.Three i:first-child,
-.star-rating.Three i:first-child + i,
-.star-rating.Three i:first-child + i + i {
-  color: #E6CE31;
-}
-.star-rating.Four i:first-child,
-.star-rating.Four i:first-child + i,
-.star-rating.Four i:first-child + i + i,
-.star-rating.Four i:first-child + i + i + i {
-  color: #E6CE31;
-}
-.star-rating.Five i {
-  color: #E6CE31;
-}
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,300,700');
 
-.icon-star:before {
-  content: "\f005";
-}
-.icon-star-empty:before {
-  content: "\f006";
-}
-.icon-star-half:before {
-  content: "\f089";
-}
-.icon-star-half-full:before,
-.icon-star-half-empty:before {
-  content: "\f123";
-}
-.icon-star {
-  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf005;');
-}
-.icon-star-empty {
-  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf006;');
-}
-.icon-star-half {
-  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf089;');
-}
-.icon-star-half-empty {
-  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf123;');
-}
-.icon-star-half-full {
-  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf123;');
-}
-
-[class^="icon-"],
-[class*=" icon-"] {
-  font-family: FontAwesome;
-  font-weight: normal;
-  font-style: normal;
-  text-decoration: inherit;
-  -webkit-font-smoothing: antialiased;
-  *margin-right: .3em;
-}
 .price_color {
   display: block;
   color: #AB5156;
@@ -143,6 +68,19 @@
 .portfolio-meta {
   background-color: #ffffff;
   padding: 5px 18px;
+}
+.product-item-max-height
+{
+    max-height: 370px;
+}
+
+.transparent-block {
+    background: rgba(255, 255, 255, 0.5);
+}
+.smaller-header {
+    font: 700 14px/1.5 "Open Sans",Verdana,sans-serif;
+    text-align: center;
+    padding-top: 10px;
 }
 
 .form-group label {
@@ -552,4 +490,12 @@ button.close {
     background-color: #FAFBFB;
     border: 1px solid #D7DDE4;
     border-radius: 0px;
+}
+
+.review-container {
+    margin-left: 75px;
+}
+
+.page-header-title {
+    font-weight: 400;
 }

@@ -112,31 +112,33 @@
 
         <div class="mb80"></div><!-- space -->
 
-        <div class="container">
-            <ul id="portfolio-filter" class="bordered text-center">
-                <li class="active"><a href="#" data-filter="*">All</a></li>
-                <li><a href="#" data-filter=".design">Design</a></li>
-                <li><a href="#" data-filter=".fashion">Fashion</a></li>
-                <li><a href="#" data-filter=".illustration">Illustration</a></li>
-                <li><a href="#" data-filter=".video">Video</a></li>
-                <li><a href="#" data-filter=".photography">Photography</a></li>
-            </ul>
-        </div><!-- End .container -->
 
-        {% placeholder "front_content" %}
-            {% row  %}
-                {% plugin "classic_gray.product_highlight" %}
-                    type = "newest"
-                    title = "Newest Products"
-                {% endplugin %}
-            {% endrow %}
-            {% row %}
-                {% plugin "classic_gray.product_highlight" %}
-                    type = "best_selling"
-                    title = "Best Setting Products"
-                {% endplugin %}
-            {% endrow %}
-        {% endplaceholder %}
+        <div class="container">
+            {% placeholder "front_content" %}
+                {% row  %}
+                    {% plugin "classic_gray.product_highlight" %}
+                        type = "newest"
+                        title = "Newest Products"
+                        count = 8
+                    {% endplugin %}
+                {% endrow %}
+                {% row %}
+                    {% plugin "classic_gray.product_highlight" %}
+                        type = "best_selling"
+                        title = "Best Selling Products"
+                        count = 8
+                    {% endplugin %}
+                {% endrow %}
+                {% row %}
+                    {% plugin "classic_gray.product_highlight" %}
+                        type = "random"
+                        title = "Random Products"
+                        count = 8
+                    {% endplugin %}
+                {% endrow %}
+            {% endplaceholder %}
+        </div>
+
     </div>
 
 {% endblock %}

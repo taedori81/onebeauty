@@ -15,6 +15,7 @@ import os
 from os.path import join, dirname, exists
 import environ
 import dj_database_url
+import shoop
 from shoop.addons import add_enabled_addons
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -41,7 +42,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 SHOOP_ENABLED_ADDONS_FILE = os.getenv("SHOOP_ENABLED_ADDONS_FILE") or (
-    os.path.join(BASE_DIR, "var", "enabled_addons"))
+    os.path.join(BASE_DIR, "enabled_addons"))
 
 INSTALLED_APPS = add_enabled_addons(SHOOP_ENABLED_ADDONS_FILE, [
     # django
@@ -51,6 +52,7 @@ INSTALLED_APPS = add_enabled_addons(SHOOP_ENABLED_ADDONS_FILE, [
     'django.contrib.messages',
     'django.contrib.sessions',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     # custom shop
     'shop',
     # shoop themes
@@ -87,6 +89,11 @@ INSTALLED_APPS = add_enabled_addons(SHOOP_ENABLED_ADDONS_FILE, [
     'herokuapp',
     'storages',
     'star_ratings',
+    'hvad',
+
+    'user_media',
+    'generic_positions',
+    'review',
 ])
 
 MIDDLEWARE_CLASSES = (
@@ -103,6 +110,7 @@ MIDDLEWARE_CLASSES = (
     'shoop.front.middleware.ShoopFrontMiddleware',
 )
 
+SITE_ID = 1
 ROOT_URLCONF = 'onebeauty.urls'
 
 _TEMPLATE_CONTEXT_PROCESSORS = [
@@ -116,19 +124,29 @@ _TEMPLATE_CONTEXT_PROCESSORS = [
     "django.contrib.messages.context_processors.messages"
 ]
 
+
+TEMPLATE_LOADERS = (
+    # 'django.template.loaders.filesystem.Loader',
+    # 'django.template.loaders.app_directories.Loader',
+    'django_jinja.loaders.AppLoader',
+    'django_jinja.loaders.FileSystemLoader',
+)
+
+
 TEMPLATES = [
     {
         "BACKEND": "django_jinja.backend.Jinja2",
         "APP_DIRS": True,
         "DIRS": [
             os.path.join(PROJECT_ROOT, 'templates'),
-            os.path.join(PROJECT_ROOT, 'shop', 'templates')
+            os.path.join(PROJECT_ROOT, 'shop', 'templates'),
+            os.path.join(PROJECT_ROOT, 'review', 'templates')
         ],
         "OPTIONS": {
             "match_extension": ".jinja",
             "context_processors": _TEMPLATE_CONTEXT_PROCESSORS,
             "newstyle_gettext": True,
-            "environment": "shoop.xtheme.engine.XthemeEnvironment",
+            "environment": "shoop.xtheme.engine.XthemeEnvironment"
         },
         "NAME": "jinja2",
     },
@@ -136,7 +154,8 @@ TEMPLATES = [
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
             os.path.join(PROJECT_ROOT, 'templates'),
-            os.path.join(PROJECT_ROOT, 'shop', 'templates')
+            os.path.join(PROJECT_ROOT, 'shop', 'templates'),
+            os.path.join(PROJECT_ROOT, 'review', 'templates')
         ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -237,6 +256,19 @@ SESSION_SERIALIZER = "django.contrib.sessions.serializers.PickleSerializer"
 # SHOOP
 SHOOP_ENABLED_ADDONS_FILE = os.path.join(BASE_DIR,"..", "var", "enabled_addons")
 SHOOP_PRICING_MODULE = "simple_pricing"
+
+
+# django-disqus
+
+DISQUS_API_KEY = 'UlNTEG6sPqc3wIPwCb2vWgym9sGKrSTg9PV3FD1nNYitTnQSePgud8Hmn5h8UpyU'
+DISQUS_WEBSITE_SHORTNAME = 'onebeauty'
+
+# Review
+REVIEW_ALLOW_ANONYMOUS = False
+REVIEW_AVOID_MULTIPLE_REVIEWS = True
+REVIEW_MODERATE_REVIEWS = False
+REVIEWS_PER_PAGE = 10
+
 
 if os.environ.get("SHOOP_WORKBENCH_DISABLE_MIGRATIONS") == "1":
     from .utils import DisableMigrations

@@ -1,0 +1,83 @@
+
+{% extends 'shoop/front/layout_2_col.jinja' %}
+{% import "star_ratings/widget.jinja" as ratings with context %}
+<!-- Pop up review -->
+{#{% set id = request.GET["id"] %}#}
+{#{% set product = get_product_by_id(id) %}#}
+
+{#<div id="product-review-{{ id }}-modal" class="product-preview-modal modal fade" tabindex="-1" role="dialog" aria-labelledby="product-{{ id }}-review">#}
+{#    <div class="product-preview-modal-dialog" role="document">#}
+{#        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>#}
+{#        <div class="content" id="product-{{ id }}-review">#}
+{#            <h1>{% trans %}Create review{% endtrans %}</h1>#}
+{#            {{ ratings.star_ratings(product) }}#}
+{#            {{ product.description }}#}
+{#            <form method="post" action="." id="reviewForm">#}
+{#                {% csrf_token %}#}
+{#                {{ form.as_p()|safe }}#}
+{#                <input type="submit"  value="{% trans %}Save{% endtrans %}" />#}
+{#            </form>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+<!-- End Pop up Reivew -->
+
+{% block page_header_title %}
+<h1 class="page-header-title">Customer's Review</h1>
+{% endblock %}
+{% if product.is_variation_parent()  %}
+    {% set priceinfo = product.get_cheapest_child_price_info(request) %}
+{% else %}
+    {% set priceinfo = product.get_price_info(request) %}
+{% endif %}
+
+{% block content_inner %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-5">
+            {% set primary_image = product.primary_image %}
+            {% set images = product.myproduct.all_images() %}
+            {% include "shoop/front/product/_product_images.jinja" with context %}
+        </div><!-- End .col-md-5 -->
+
+        <div class="col-md-7">
+
+            <div class="product-details review-container">
+                <h2 class="product-title">{{ product.name }}</h2>
+                <div class="product-cats">
+                    <a href="" class=""></a>
+                </div><!-- End .product-cats -->
+                <div class="">
+                    {{ product.description }}
+                </div>
+                <div class="product-price-container">
+                    {{ macros.render_product_price(product, priceinfo) }}
+
+                    <div class="discount-price">
+                        {% if priceinfo.is_discounted %}
+                            <div class="discount">
+                              <span class="label label-danger">
+                                {% set discount_percent = priceinfo.discount_rate|percent %}
+                                {{- _("Save %(discount_percent)s", discount_percent=discount_percent) -}}
+                              </span>
+                            </div>
+                        {% endif %}
+                    </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h1>{% trans %}Create review {% endtrans %}</h1>
+                        {{ ratings.star_ratings(product) }}
+                        <form method="post" action=".">
+                            {% csrf_token %}
+                            {{ form.as_p()|safe }}
+                            <input type="submit" value="{% trans %}Save{% endtrans %}" />
+                        </form>
+                    </div>
+                </div>
+        </div><!-- End .col-md-7 -->
+    </div><!-- End .row -->
+</div>
+    </div>
+</div>
+{% endblock %}

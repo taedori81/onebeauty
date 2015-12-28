@@ -168,4 +168,36 @@
 
 	});
 
+
+	window.showReviewForm = function showReviewForm(contentType, productId){
+		var modalSelector = "#product-review-" + productId + "-modal";
+		var $reviewModal = $(modalSelector);
+		if($reviewModal.length) {
+			$reviewModal.modal("show");
+			return;
+		}
+		// make sure modals disappear and are not "cached"
+		$(document).on("hidden.bs.modal", modalSelector, function(){
+			$(modalSelector).remove();
+		});
+
+		$.ajax({
+			url: "/review/" + contentType + "/" + productId + "/create/",
+			method: "GET",
+			data: {
+				id: productId
+			},
+			success: function(data){
+				$("body").append(data);
+				$(modalSelector).modal("show");
+
+			}
+		})
+	};
+
+	$('#reviewForm').on('submit', function(e){
+		e.preventDefault();
+		alert.show('hello');
+	})
+
 })(jQuery);

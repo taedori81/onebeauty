@@ -1,4 +1,7 @@
+{% import "star_ratings/widget.jinja" as ratings with context %}
+
 {% macro product_box(product, show_image=True, show_description=True, class="", thumbnail_size=(250,250)) %}
+
     {% set u = url("shoop:product", pk=product.pk, slug=product.slug) %}
     {% if product.is_variation_parent()  %}
         {% set price_info = product.get_cheapest_child_price_info(request) %}
@@ -23,20 +26,54 @@
                  </figure>
              {% endif %}
              <div class="product-action-container each-btn-animate">
-                 <a href="#" class="btn btn-dark quick-view" title="Quick View" onclick="javascript:showPreview('{{ product.id }}')"><i class="fa fa-eye"></i></a>
+                 <button href="#" class="btn btn-custom quick-view" title="Quick View" onclick="javascript:showPreview('{{ product.id }}')"><i class="fa fa-eye"></i></button>
              </div><!-- end .product-action-container -->
+
          </div><!-- End .product-top -->
 
          <h3 class="product-title"><a href="{{ u }}" title="{{ product.name }}" class="product-link">{{ product.name }}</a></h3>
 
-         <p class="star-rating">
-              <i class="icon-star"></i>
-              <i class="icon-star"></i>
-              <i class="icon-star"></i>
-              <i class="icon-star"></i>
-              <i class="icon-star"></i>
+        {{ ratings.star_ratings(product) }}
+        {{ render_product_price(product, price_info, show_units=False) }}
+      <!-- Go to Detail Page -->
+     <a href="{{ u }}" class="btn btn-block btn-custom no-radius add-to-cart">{% trans %}Details{% endtrans %}</a>
+    </div><!-- End .product -->
+{% endmacro %}
 
-         </p>
+{% macro product_box_for_category(product, show_image=True, show_description=True, class="", thumbnail_size=(250,250)) %}
+
+    {% set u = url("shoop:product", pk=product.pk, slug=product.slug) %}
+    {% if product.is_variation_parent()  %}
+        {% set price_info = product.get_cheapest_child_price_info(request) %}
+    {% else %}
+        {% set price_info = product.get_price_info(request) %}
+    {% endif %}
+    <div class="product text-center">
+         <div class="product-top">
+{#               <span class="product-box new-box new-box-border">New</span>#}
+             {% if show_image %}
+                    {% for image in images %}
+                        <p>{{ image.url }}</p>
+                    {% endfor %}
+                 <figure>
+                     <a href="{{ u }}" title="{{ product.name }}">
+                         {% set primary_image_thumb = product.primary_image|thumbnail(size=thumbnail_size) %}
+                         <img src="{% if product.primary_image %}{{ primary_image_thumb }}{% else %}{{ STATIC_URL }}classic_gray/img/no_image.png{% endif %}" alt="{{ product.name }}" class="product-image product-image-list" style="">
+                         {% set secondary_image_thumb = product.myproduct.secondary_image()|thumbnail(size=thumbnail_size) %}
+                         <img src="{{ secondary_image_thumb }}" alt="{{ product.name}}" class="product-image-hover product-image-hover-list">
+                     </a>
+                 </figure>
+             {% endif %}
+             <div class="product-action-container each-btn-animate">
+                 <button href="#" class="btn btn-custom quick-view" title="Quick View" onclick="javascript:showPreview('{{ product.id }}')"><i class="fa fa-eye"></i></button>
+             </div><!-- end .product-action-container -->
+
+         </div><!-- End .product-top -->
+
+         <h3 class="product-title"><a href="{{ u }}" title="{{ product.name }}" class="product-link">{{ product.name }}</a></h3>
+
+        {{ ratings.star_ratings_short(product) }}
+        <p class="product-ratings-count"><small><a href="{{ u }}#reviews">{{ get_review_count(product) }} Review(s)</a></small></p>
         {{ render_product_price(product, price_info, show_units=False) }}
       <!-- Go to Detail Page -->
      <a href="{{ u }}" class="btn btn-block btn-custom no-radius add-to-cart">{% trans %}Details{% endtrans %}</a>
@@ -79,15 +116,6 @@
                          {{ lline.text }}
                      {% endif %}
                  </h2>
-                 {% block product_review %}
-                     <p class="star-rating">
-                         <i class="icon-star"></i>
-                         <i class="icon-star"></i>
-                         <i class="icon-star"></i>
-                         <i class="icon-star"></i>
-                         <i class="icon-star"></i>
-                     </p>
-                 {% endblock %}
                  <ul class="product-desc-list">
                      <li class="price_color">{{ render_product_price(product, price_info, show_units=False) }}</li>
                  </ul>
@@ -147,41 +175,73 @@
             </a>
         </figure>
         <div class="portfolio-meta light">
-        <div class="row">
-            <div class="col-sm-12">
-                <h3 class="portfolio-title"><a href="{{ u }}">{{ product.name }}</a></h3>
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3 class="portfolio-title smaller-header"><a href="{{ u }}">{{ product.name }}</a></h3>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-7">
-                <p class="star-rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                </p>
-            </div>
-            <div class="col-sm-5 pull-left">
-                {{ render_product_price(product, price_info, show_units=False) }}
-            </div>
-        <div class="actions clearfix">
-            <button type="button" class="btn btn-block no-radius btn-custom" onclick="javascript:showPreview('{{ product.id }}')"><i class="fa fa-eye"></i> {% trans %}Preview{% endtrans %}</button>
-        </div>
-    </div><!-- End .portfolio-meta -->
-</div><!-- End .portfolio-item -->
+            <div class="row">
+                <div class="col-sm-9">
+                    {{ render_product_price(product, price_info, show_units=False) }}
+                </div>
+                <div class="col-sm-3">
+                    <div class="actions clearfix">
+                        <button href="#" class="btn btn-custom btn-sm" title="Quick View" onclick="javascript:showPreview('{{ product.id }}')"><i class="fa fa-eye"></i></button>
+                    </div>
+                </div>
+            </div><!-- End .portfolio-meta -->
+        </div><!-- End .portfolio-item -->
     </div>
 {% endmacro %}
+
+
+{% macro product_box_for_front_2(product, show_image=True, show_description=True, class="portfolio-item", thumbnail_size=(500,500)) %}
+    {% set u = url("shoop:product", pk=product.pk, slug=product.slug) %}
+    {% if product.is_variation_parent()  %}
+        {% set price_info = product.get_cheapest_child_price_info(request) %}
+    {% else %}
+        {% set price_info = product.get_price_info(request) %}
+    {% endif %}
+    <div class="{{ class }} box3d center" id="product-{{ product.id }}">
+        <div class="box3d-wrapper">
+            <figure class="front">
+                <a href="{{ u }}" class="zoom-item" title="{{ product.name }}">
+                    {% if show_image %}
+                        {% set primary_image_thumb = product.primary_image|thumbnail(size=thumbnail_size) %}
+                        <img src="{% if product.primary_image %}{{ primary_image_thumb }}{% else %}{{ STATIC_URL }}classic_gray/img/no_image.png{% endif %}" alt="{{ product.name }}" class="img-responsive product-item-max-height" style="">
+                    {% endif %}
+                </a>
+            </figure>
+            <div class="portfolio-meta back">
+                <div class="vcenter-container">
+                    <div class="vcenter text-center">
+                        <h3 class="portfolio-title"><a href="{{ u }}">{{ product.name }}</a></h3>
+                        <div class="portfolio-tags">{{ product.category }}</div>
+                        {{ render_product_price(product, price_info, show_units=False) }}
+                        <div class="mb10"></div>
+                        {% include "shoop/_rating_and_review.jinja" with context %}
+                        <div class="mb10"></div>
+                        <div class="actions clearfix">
+                            <button href="#" class="btn btn-custom btn-block btn-lg no-radius" title="Quick View" onclick="javascript:showPreview('{{ product.id }}')"><i class="fa fa-eye"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- End .portfolio-item -->
+        </div>
+    </div>
+{% endmacro %}
+
 
 {% macro render_cross_sell_products(product, relation_type="", title="") %}
     {%- set cross_sell_products = shoop.product.get_product_cross_sells(product, relation_type) %}
     {% if cross_sell_products %}
         <hr>
-        {% if title %}<h3>{{ title }}</h3>{% endif %}
-        <div class="row">
+        {% if title %}<h3 class="title-underblock title-bottom-border custom first-color">{{ title }}</h3>{% endif %}
+        <div class="mb30"></div>
+        <div class="row masonry-grid-fitrows">
             {% for product in cross_sell_products %}
-                <div class="col-md-3">
-                    {{ product_box(product) }}
+                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 masonry-grid-item product-item">
+                    {{ product_box_for_front_2(product) }}
                 </div>
             {% endfor %}
         </div>
@@ -423,13 +483,27 @@
         {% if min_price == max_price %}
             <p class="price_color">{{ min_price|money if min_price else "" }}</p>
         {% else %}
-            <span class="label label-default">{% trans %}Start from{% endtrans %}</span><p class="price_color">{{ min_price|money }}</p>
+            <div class="row">
+                <div class="col-sm-6">
+                    <span class="label label-primary">{% trans %}Start from{% endtrans %}</span>
+                </div>
+                <div class="col-sm-6">
+                    <p class="price_color">{{ min_price|money }}</p>
+                </div>
+            </div>
         {% endif %}
     {% else %}
         {% if price_info.is_discounted %}
             <span class="product-old-price">{{ price_info.base_price|money }}</span>
         {% endif %}
-        <span class="label label-default">{% trans %}Start from{% endtrans %}</span><p class="price_color">{{ price_info.price|money }}</p>
+        <div class="row">
+            <div class="col-sm-6">
+                <span class="label label-primary">{% trans %}Best Price{% endtrans %}</span>
+            </div>
+            <div class="col-sm-6">
+                <p class="price_color">{{ price_info.price|money }}</p>
+            </div>
+        </div>
     {% endif %}
     {% if show_units %}
 {#    <small> / {{ product.sales_unit.short_name }}</small>#}
