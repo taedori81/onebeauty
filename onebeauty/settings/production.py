@@ -62,6 +62,7 @@ INSTALLED_APPS = add_enabled_addons(SHOOP_ENABLED_ADDONS_FILE, [
     'shoop.testing',
     'shoop.utils',
     'shoop.xtheme',
+
     # external apps
     'bootstrap3',
     'django_jinja',
@@ -73,6 +74,12 @@ INSTALLED_APPS = add_enabled_addons(SHOOP_ENABLED_ADDONS_FILE, [
     'shoop.discount_pricing',
     'herokuapp',
     'storages',
+
+    'hvad',
+    'review',
+    'user_media',
+    'generic_positions',
+    'star_ratings'
 ])
 
 MIDDLEWARE_CLASSES = (
@@ -105,6 +112,7 @@ TEMPLATES = [
     {
         "BACKEND": "django_jinja.backend.Jinja2",
         "APP_DIRS": True,
+
         "OPTIONS": {
             "match_extension": ".jinja",
             "context_processors": [
@@ -304,6 +312,15 @@ LOGGING = {
         }
     }
 }
+
+
+# Review
+REVIEW_ALLOW_ANONYMOUS = False
+REVIEW_AVOID_MULTIPLE_REVIEWS = True
+REVIEW_MODERATE_REVIEWS = False
+REVIEWS_PER_PAGE = 10
+
+
 
 if os.environ.get("SHOOP_WORKBENCH_DISABLE_MIGRATIONS") == "1":
     from .utils import DisableMigrations

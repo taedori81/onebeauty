@@ -5,15 +5,15 @@
     {% if user.is_authenticated() %}
         {% if user_has_reviewed(product, request.user) %}
             <p><small>{% trans %}You reviewd this product{% endtrans %}</small></p>
-            <p class="product-ratings-count"><a href="{{ product_url }}#reviews">{{ get_review_count(product) }} Review(s)</a></p>
+            <p class="product-ratings-count"><a href="{{ u }}#reviews">{{ get_review_count(product) }} Review(s)</a></p>
         {% else %}
             <p><small>{% trans %}You don't write a review for this product.{% endtrans %}</small></p>
             <a href="{{ url("review_create", content_type='product', object_id=product.id) }}" class="btn btn-custom btn-sm no-radius">{% trans %}Write a Review{% endtrans %}</a>
             <div class="mb10"></div>
-            <p class="product-ratings-count"><a href="{{ product_url }}#reviews">{{ get_review_count(product) }} Review(s)</a></p>
+            <p class="product-ratings-count"><a href="{{ u }}#reviews">{{ get_review_count(product) }} Review(s)</a></p>
         {% endif %}
     {% else %}
-        <p class="product-ratings-count"><a href="{{ product_url }}#reviews">{{ get_review_count(product) }} Review(s)</a></p>
+        <p class="product-ratings-count"><a href="{{ u }}#reviews">{{ get_review_count(product) }} Review(s)</a></p>
         <div class="mb10"></div>
         <p>Log in to write a Review</p>
     {% endif %}

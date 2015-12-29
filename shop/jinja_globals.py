@@ -4,7 +4,6 @@ from shoop.core.models import Product
 from jinja2.utils import contextfunction
 
 
-
 def get_product_by_id(product_id):
     return Product.objects.all().filter("pk" == product_id)
 

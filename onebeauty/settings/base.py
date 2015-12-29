@@ -55,6 +55,7 @@ INSTALLED_APPS = add_enabled_addons(SHOOP_ENABLED_ADDONS_FILE, [
     'django.contrib.sites',
     # custom shop
     'shop',
+
     # shoop themes
     'shoop.themes.classic_gray',
     # shoop
@@ -88,12 +89,13 @@ INSTALLED_APPS = add_enabled_addons(SHOOP_ENABLED_ADDONS_FILE, [
     'shoop.discount_pricing',
     'herokuapp',
     'storages',
-    'star_ratings',
-    'hvad',
 
+    'hvad',
+    'review',
     'user_media',
     'generic_positions',
-    'review',
+    'star_ratings'
+
 ])
 
 MIDDLEWARE_CLASSES = (
@@ -137,11 +139,7 @@ TEMPLATES = [
     {
         "BACKEND": "django_jinja.backend.Jinja2",
         "APP_DIRS": True,
-        "DIRS": [
-            os.path.join(PROJECT_ROOT, 'templates'),
-            os.path.join(PROJECT_ROOT, 'shop', 'templates'),
-            os.path.join(PROJECT_ROOT, 'review', 'templates')
-        ],
+
         "OPTIONS": {
             "match_extension": ".jinja",
             "context_processors": _TEMPLATE_CONTEXT_PROCESSORS,
