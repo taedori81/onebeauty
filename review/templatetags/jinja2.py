@@ -89,11 +89,32 @@ def user_has_reviewed(obj, user):
     return True
 
 
+def get_review_by_user(obj, user):
+    ctype = ContentType.objects.get_for_model(obj)
+    try:
+        reviewed_item = models.Review.objects.get(user=user, content_type=ctype,
+                                                  object_id=obj.id)
+    except models.Review.DoesNotExist:
+        return None
+    return reviewed_item
+
+
+from babel import dates
+
+
+def format_datetime(value, format='medium'):
+    if format == 'full':
+        format = "EEEE, d. MMMM y 'at' HH:mm"
+    elif format == 'medium':
+        format = "EE dd.MM.y HH:mm"
+    return dates.format_datetime(value, format)
+
+
 from shoop.core.models import Product
 
 
-def get_product_by_id(id):
-    return Product.objects.get(pk=id)
+def get_product_by_id(product_id):
+    return Product.objects.get(pk=product_id)
 
 library.global_function("get_product_by_id", get_product_by_id)
 
@@ -104,4 +125,8 @@ library.global_function("get_review_count", get_review_count)
 library.global_function("get_review_average", get_review_average)
 library.global_function("get_reviews", get_reviews)
 library.global_function("render_category_averages", render_category_averages)
+library.global_function("get_review_by_user", get_review_by_user)
+
+
+library.global_function("datetime", format_datetime)
 

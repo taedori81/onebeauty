@@ -1,5 +1,6 @@
 {% extends "shoop/front/layout_2_col.jinja" %}
 {% import "star_ratings/widget.jinja" as ratings with context %}
+{% import "classic_gray/shoop/front/macros.jinja" as macro with context %}
 
 {% if product.is_variation_parent()  %}
     {% set priceinfo = product.get_cheapest_child_price_info(request) %}
@@ -130,7 +131,12 @@
         </div><!-- End .col-md-7 -->
     </div><!-- End .row -->
     <hr>
-    <h3>{% trans %}Product Information{% endtrans %}</h3>
+
+    <header class="title-block text-center">
+        <h3 class="title-underblock custom">{% trans %}Product Information{% endtrans %}</h3>
+    </header>
+    <div class="divider line double"><span><i class="fa fa-info-circle"></i></span></div>
+
 {#    {% set media_files = product.get_public_media() %}#}
     <div class="product-tabs" role="tabpanel" id="tabpanel1">
         <ul class="nav nav-pills" role="tablist">
@@ -178,20 +184,39 @@
             {% endif %}
         </div>
     </div>
-
     <div id="reviews">
-    <h1>This is Review</h1>
-    {% set reviews = get_reviews(product) %}
-        <h1>Review List</h1>
+        <header class="title-block text-center">
+            <h3 class="title-underblock custom">{% trans %}Product Reviews{% endtrans %}</h3>
+        </header>
+        <div class="divider line double"><span><i class="fa fa-comments"></i></span></div>
+        {% set reviews = get_reviews(product) %}
         {% if user.is_authenticated() %}
             {% if not user_has_reviewed(product, request.user) %}
                   <a href="{{ url("review_create", content_type='product', object_id=product.id) }}" class="btn btn-custom btn-sm no-radius">{% trans %}Write a Review{% endtrans %}</a>
+            {% else %}
+                {% set reviewed = get_review_by_user(product, user) %}
+                {% if reviewed %}
+                    <div class="form-wrapper">
+                        <h4>Your Review</h4>
+                        {{ ratings.star_ratings_user_rating(product) }}
+                        <p class="review-content">{{ reviewed.content }}</p>
+                        <p>{% trans %}This is your own review.{% endtrans %} <a href="{{ url ("review_update", pk=reviewed.pk) }}">{% trans %}Change it.{% endtrans %}</a></p>
+                    </div>
+                {% endif %}
             {% endif %}
+
         {% endif %}
-        {% for review in reviews %}
-            <p>{{ review.user }}</p>
-            <p>{{ review.content }}</p>
-        {% endfor %}
+        <div class="row masonry-grid-fitrows">
+            {% for review in reviews %}
+                <div class="col-sm-12 col-md6 col-lg-4 masonry-grid-item">
+                    <div class="form-wrapper">
+                        <p>By <span class="label label-primary">{{ review.user }}</span> on {{ review.creation_date|datetime }}</p>
+                        {{ ratings.star_ratings_user_rating(product) }}
+                        <p class="review-content">{{ review.content }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 
     {% placeholder "product_extra_bottom" %}{% endplaceholder %}

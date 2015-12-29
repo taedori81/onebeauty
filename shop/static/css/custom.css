@@ -499,3 +499,17 @@ button.close {
 .page-header-title {
     font-weight: 400;
 }
+
+.review-wrapper > form label {
+    display: none;
+}
+
+.review-wrapper input {
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.review-content{
+    font-weight: 400;
+    font-style: italic;
+}

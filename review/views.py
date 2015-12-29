@@ -72,6 +72,11 @@ class ReviewUpdateMixin(object):
         return super(ReviewUpdateMixin, self).dispatch(
             request, *args, **kwargs)
 
+    def get_context_data(self, **kwargs):
+        context = super(ReviewUpdateMixin, self).get_context_data(**kwargs)
+        context['product'] = self.reviewed_item
+
+        return context
 
 # ------ MODEL VIEWS ------ #
 
@@ -119,6 +124,7 @@ class ReviewCreateView(ReviewViewMixin, CreateView):
         context['product'] = self.reviewed_item
 
         return context
+
 
 class ReviewDetailView(DetailView):
     """View to display a ``Review`` instance."""

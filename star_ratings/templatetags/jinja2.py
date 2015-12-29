@@ -19,12 +19,17 @@ def ratings(request, item, icon_height=32, icon_width=32):
         user_rating = None
 
     stars = [i for i in range(1, STAR_RATINGS_RANGE + 1)]
+    if user_rating is not None:
+        user_rating_percentage = 100 * (user_rating.score * 0.2)
+    else:
+        user_rating_percentage = None
 
     return {
         'rating': rating,
         'request': request,
         'user': request.user,
         'user_rating': user_rating,
+        'user_rating_percentage': user_rating_percentage,
         'stars': stars,
         'star_count': STAR_RATINGS_RANGE,
         'percentage': 100 * (rating.average / Decimal(STAR_RATINGS_RANGE)),

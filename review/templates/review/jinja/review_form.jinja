@@ -25,14 +25,17 @@
 {% block page_header_title %}
 <h1 class="page-header-title">Customer's Review</h1>
 {% endblock %}
+
+
+{#{% set product = object.reviewed_item %}#}
+
+
+{% block content_inner %}
 {% if product.is_variation_parent()  %}
     {% set priceinfo = product.get_cheapest_child_price_info(request) %}
 {% else %}
     {% set priceinfo = product.get_price_info(request) %}
 {% endif %}
-
-{% block content_inner %}
-
 <div class="container">
     <div class="row">
         <div class="col-md-5">
@@ -66,13 +69,19 @@
                     </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <h1>{% trans %}Create review {% endtrans %}</h1>
+                        <header class="title-block">
+                            <h2 class="title-underblock custom">{% trans %}<span class="light">Write your</span> Review {% endtrans %}</h2>
+                        </header>
+
                         {{ ratings.star_ratings(product) }}
-                        <form method="post" action=".">
-                            {% csrf_token %}
-                            {{ form.as_p()|safe }}
-                            <input type="submit" value="{% trans %}Save{% endtrans %}" />
-                        </form>
+                        <div class="mb20"></div>
+                        <div class="review-wrapper">
+                            <form method="post" action=".">
+                                {% csrf_token %}
+                                {{ form.as_p()|safe }}
+                                <input type="submit" class="btn btn-custom no-radius btn-block" value="{% trans %}Save{% endtrans %}" />
+                            </form>
+                        </div>
                     </div>
                 </div>
         </div><!-- End .col-md-7 -->
