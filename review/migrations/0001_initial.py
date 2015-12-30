@@ -84,7 +84,6 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
                 ('object_id', models.PositiveIntegerField()),
                 ('content', models.TextField(blank=True, max_length=1024, verbose_name='Content')),
-                ('headline', models.CharField(blank=True, max_length=255, verbose_name='Headline')),
                 ('language', models.CharField(blank=True, max_length=5, verbose_name='Language')),
                 ('creation_date', models.DateTimeField(verbose_name='Creation date', auto_now_add=True)),
                 ('average_rating', models.FloatField(verbose_name='Average rating', default=0)),

@@ -42,7 +42,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 SHOOP_ENABLED_ADDONS_FILE = os.getenv("SHOOP_ENABLED_ADDONS_FILE") or (
-    os.path.join(BASE_DIR, "enabled_addons"))
+    os.path.join(BASE_DIR, "var", "enabled_addons"))
 
 INSTALLED_APPS = add_enabled_addons(SHOOP_ENABLED_ADDONS_FILE, [
     # django
@@ -94,7 +94,8 @@ INSTALLED_APPS = add_enabled_addons(SHOOP_ENABLED_ADDONS_FILE, [
     'review',
     'user_media',
     'generic_positions',
-    'star_ratings'
+    'star_ratings',
+    'shoop_stripe',
 
 ])
 
@@ -266,6 +267,9 @@ REVIEW_ALLOW_ANONYMOUS = False
 REVIEW_AVOID_MULTIPLE_REVIEWS = True
 REVIEW_MODERATE_REVIEWS = False
 REVIEWS_PER_PAGE = 10
+
+# Stripe
+SHOOP_HOME_CURRENCY = 'USD'
 
 
 if os.environ.get("SHOOP_WORKBENCH_DISABLE_MIGRATIONS") == "1":
