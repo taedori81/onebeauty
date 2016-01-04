@@ -80,7 +80,8 @@ INSTALLED_APPS = add_enabled_addons(SHOOP_ENABLED_ADDONS_FILE, [
     'review',
     'user_media',
     'generic_positions',
-    'star_ratings'
+    'star_ratings',
+    'shoop_stripe',
 ])
 
 MIDDLEWARE_CLASSES = (
