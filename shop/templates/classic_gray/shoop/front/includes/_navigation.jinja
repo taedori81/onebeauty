@@ -2,8 +2,8 @@
 <header id="header" role="banner">
     <div class="collapse navbar-white" id="header-search-form">
         <div class="container">
-        <form class="navbar-form animated fadeInDown"  role="search">
-            <input type="search" id="s" name="s" class="form-control" placeholder="Search in here...">
+        <form class="navbar-form animated fadeInDown"  role="search" action="{{ url("shoop:product_search") }}" method="get" value="{{ q or "" }}">
+            <input type="search" id="s" name="q" class="form-control" placeholder="Search in here...">
             <button type="submit" class="btn-circle" title="Search"><i class="fa fa-search"></i></button>
         </form>
         </div>

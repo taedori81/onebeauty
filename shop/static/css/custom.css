@@ -188,7 +188,7 @@ input[type="text"][id*="quantity"], input[type="number"][id*="quantity"] {
 }
 
 .product-image-list, .product-image-hover-list {
-    height: 250px;
+    /*height: 250px;*/
 }
 
 #dropdown-content {
