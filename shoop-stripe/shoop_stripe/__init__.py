@@ -15,7 +15,7 @@ class ShoopStripeAppConfig(AppConfig):
     label = "shoop-stripe"
     provides = {
         "payment_method_module": [
-            "shoop_stripe.module:StripeCheckoutModule",
+            "shoop-stripe.shoop_stripe.module:StripeCheckoutModule",
         ]
     }
 
