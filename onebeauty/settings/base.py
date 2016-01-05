@@ -95,7 +95,7 @@ INSTALLED_APPS = add_enabled_addons(SHOOP_ENABLED_ADDONS_FILE, [
     'user_media',
     'generic_positions',
     'star_ratings',
-    'shoop_stripe',
+    'shoop-stripe.shoop_stripe',
 
 ])
 
