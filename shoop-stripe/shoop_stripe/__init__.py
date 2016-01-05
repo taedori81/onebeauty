@@ -20,5 +20,5 @@ class ShoopStripeAppConfig(AppConfig):
     }
 
 
-default_app_config = "shoop_stripe.ShoopStripeAppConfig"
+default_app_config = "shoop-stripe.shoop_stripe.ShoopStripeAppConfig"
 # default_app_config = "shoop_stripe.ShoopStripeAppConfig"
