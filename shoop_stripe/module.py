@@ -8,8 +8,8 @@
 
 from django import forms
 from shoop.core.methods.base import BasePaymentMethodModule
-from shoop_stripe.checkout_phase import StripeCheckoutPhase
-from shoop_stripe.utils import get_amount_info
+from shoopstripe.checkout_phase import StripeCheckoutPhase
+from shoopstripe.utils import get_amount_info
 from shoop.utils.excs import Problem
 from shoop.utils.http import retry_request
 
