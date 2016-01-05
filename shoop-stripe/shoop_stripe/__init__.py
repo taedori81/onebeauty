@@ -10,7 +10,7 @@ from shoop.apps import AppConfig
 
 
 class ShoopStripeAppConfig(AppConfig):
-    name = "shoop_stripe"
+    name = "shoop-stripe.shoop_stripe"
     verbose_name = "Shoop Stripe Checkout integration"
     label = "shoop-stripe"
     provides = {
