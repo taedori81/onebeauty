@@ -82,9 +82,12 @@ INSTALLED_APPS = add_enabled_addons(SHOOP_ENABLED_ADDONS_FILE, [
     'generic_positions',
     'star_ratings',
     'shoop_stripe',
+    'shoop_tax',
+    'opbeat.contrib.django',
 ])
 
 MIDDLEWARE_CLASSES = (
+    'opbeat.contrib.django.middleware.OpbeatAPMMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -322,6 +325,14 @@ REVIEW_AVOID_MULTIPLE_REVIEWS = True
 REVIEW_MODERATE_REVIEWS = False
 REVIEWS_PER_PAGE = 10
 
+
+# Opbeat
+
+OPBEAT = {
+    'ORGANIZATION_ID': '05436e12b988423f8cfde74512dbfd78',
+    'APP_ID': '5743335261',
+    'SECRET_TOKEN': 'b0fdba56b0243d6959d5b866bfe845bc9b8ffbf1',
+}
 
 
 if os.environ.get("SHOOP_WORKBENCH_DISABLE_MIGRATIONS") == "1":

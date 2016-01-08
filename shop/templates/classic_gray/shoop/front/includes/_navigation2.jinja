@@ -12,47 +12,35 @@
         <div class="navbar-top no-bg clearfix">
             <div class="container">
                 <div class="pull-left">
-                    <ul class="navbar-top-nav clearfix">
+                    <ul class="navbar-top-nav clearfix hidden-sm hidden-xs">
                         {% if user.is_authenticated() %}
                             <li>
                                 <a href="{{ url("shoop:customer_edit") }}">
                                     <i class="fa fa-user"></i>
-                                    <span class="hidden-xs hidden-sm">
+                                    <span class="hidden-xs"></span>
                                     {% if user.first_name or user.last_name %}
                                         {{ user.get_full_name() }}
                                     {% else %}
                                         {{ user }}
                                     {% endif %}
-                                    </span>
                                 </a>
                             </li>
                             {% if shoop.urls.has_url("shoop:personal-orders") %}
                                 <li>
                                     <a href="{{ url("shoop:personal-orders") }}">
                                         <i class="fa fa-list-alt fa-fw"></i>
-                                        <span class="hidden-xs hidden-sm">
                                         {% trans %}My orders{% endtrans %}
-                                        </span>
                                     </a>
                                 </li>
                             {% endif %}
 
                             {% if user.is_superuser %}
-                                <li>
-                                    <a href="{{ url("shoop_admin:dashboard") }}"><i class="fa fa-dashboard fa-fw"></i>
-                                    <span class="hidden-xs hidden-sm">
-                                        {% trans %}Admin panel{% endtrans %}
-                                    </span>
-                                    </a>
-                                </li>
+                                <li><a href="{{ url("shoop_admin:dashboard") }}"><i class="fa fa-dashboard fa-fw"></i> {% trans %}Admin panel{% endtrans %}</a></li>
                             {% endif %}
                             {% if shoop.urls.has_url("shoop:logout") %}
                                 <li>
                                     <a href="{{ url("shoop:logout") }}">
-                                        <i class="fa fa-sign-out fa-fw"></i>
-                                        <span class="hidden-xs hidden-sm">
-                                            {% trans %}Log out{% endtrans %}
-                                        </span>
+                                        <i class="fa fa-sign-out fa-fw"></i> {% trans %}Log out{% endtrans %}
                                     </a>
                                 </li>
                             {% endif %}
@@ -60,7 +48,7 @@
                         {% else %}
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="logindropdown" aria-expanded="true">
-                                    <i class="menu-icon fa fa-user"></i> <span class="">{% trans %}Log in{% endtrans %}</span>
+                                    <i class="menu-icon fa fa-user"></i> <span class="hidden-xs">{% trans %}Log in{% endtrans %}</span>
                                     <i class="dropdown-icon fa fa-angle-down"></i>
                                 </a>
                                 <ul class="dropdown-menu login" role="dropdown-menu" id="dropdown-content"  aria-labelledby="logindropdown">
@@ -125,7 +113,7 @@
                         </a>
                     </div><!-- End .social-icons -->
 
-                    <div class="dropdowns-container pull-right clearfix hidden-xs hidden-sm">
+                    <div class="dropdowns-container pull-right clearfix">
                         <div class="dropdown currency-dropdown pull-right">
                             <a class="dropdown-toggle" href="#" id="currency-dropdown" data-toggle="dropdown" aria-expanded="true">
                             Currency
@@ -139,7 +127,7 @@
                             </ul>
                         </div><!-- End .currency-dropdown -->
 
-                        <div class="dropdown language-dropdown pull-right hidden-xs hidden-sm">
+                        <div class="dropdown language-dropdown pull-right">
                             <a class="dropdown-toggle" href="#" id="language-dropdown" data-toggle="dropdown" aria-expanded="true">
                             Languages
                             <span class="angle"></span>

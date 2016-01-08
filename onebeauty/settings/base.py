@@ -96,10 +96,14 @@ INSTALLED_APPS = add_enabled_addons(SHOOP_ENABLED_ADDONS_FILE, [
     'generic_positions',
     'star_ratings',
     'shoop_stripe',
+    'shoop_tax',
+    'opbeat.contrib.django',
 
 ])
 
 MIDDLEWARE_CLASSES = (
+    'opbeat.contrib.django.middleware.OpbeatAPMMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -270,6 +274,23 @@ REVIEWS_PER_PAGE = 10
 
 # Stripe
 SHOOP_HOME_CURRENCY = 'USD'
+
+
+# Tax
+
+SHOOP_TAX_MODULE = "avalara_tax"
+
+
+# Avalara Api
+AVA_API_URL = 'https://taxrates.api.avalara.com:443/postal?country=usa&postal={0}&apikey={1}'
+AVA_API_KEY = '23AWdBihK45%2FSydcwLOWX9C79x52U1xSXwBTjRDwPSdpn%2BT53GyQ0YyXt%2FRAgRXKUpqPluapkCyNVi0CiCAYKg%3D%3D'
+
+# Opbeat
+OPBEAT = {
+    'ORGANIZATION_ID': '05436e12b988423f8cfde74512dbfd78',
+    'APP_ID': '5743335261',
+    'SECRET_TOKEN': 'b0fdba56b0243d6959d5b866bfe845bc9b8ffbf1',
+}
 
 
 if os.environ.get("SHOOP_WORKBENCH_DISABLE_MIGRATIONS") == "1":
