@@ -247,13 +247,9 @@ STATICFILES_DIRS = (
 # Email settings.
 
 EMAIL_HOST = "smtp.sendgrid.net"
-
 EMAIL_HOST_USER = os.environ.get("SENDGRID_USERNAME")
-
 EMAIL_HOST_PASSWORD = os.environ.get("SENDGRID_PASSWORD")
-
 EMAIL_PORT = 587
-
 EMAIL_USE_TLS = True
 
 SERVER_EMAIL = u"{name} <notifications@{domain}>".format(
@@ -335,6 +331,10 @@ OPBEAT = {
 
 
 # SHOOP_TAX_MODULE = "avalara_tax"
+
+# Avalara API
+AVA_API_URL = os.environ.get('AVA_API_URL')
+AVA_API_KEY = os.environ.get('AVA_API_KEY')
 
 
 if os.environ.get("SHOOP_WORKBENCH_DISABLE_MIGRATIONS") == "1":
