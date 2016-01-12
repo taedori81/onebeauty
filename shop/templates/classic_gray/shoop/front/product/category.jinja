@@ -22,7 +22,7 @@
 {% endblock %}
 
 {% block column_left %}
-    <div class="widget">
+    <div class="widget hidden-xs hidden-sm">
         <div class="filter-group-widget">
             <div class="panel-group" role="tablist" aria-multiselectable="true">
                 {% include "shoop/front/includes/_category_menu.jinja" %}
@@ -123,28 +123,6 @@
                                     <a href="#" class="filter-size-box" data-filter="priceLessThan200">$200</a>
                                 </div><!-- End .row -->
                             </div><!-- End .filter-color-container -->
-                        </div><!-- End .panel-body -->
-                    </div><!-- End .panel-collapse -->
-                </div><!-- End .panel -->
-                <div class="panel panel-border-tb">
-                    <div class="panel-heading" role="tab" id="brandFilter-header">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#brandFilter" aria-expanded="true" aria-controls="brandFilter">
-                                Brand Filter
-                                <span class="panel-icon"></span>
-                            </a>
-                        </h4>
-                    </div><!-- End .panel-heading -->
-                    <div id="brandFilter" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="brandFilter-header">
-                        <div class="panel-body">
-                            <ul class="filter-brand-list">
-                                <li><a href="#"><i class="fa fa-angle-right"></i>Yikes &amp; Sports <span>(11)</span></a></li>
-                                <li><a href="#"><i class="fa fa-angle-right"></i>Smittzy &amp; Jane <span>(7)</span></a></li>
-                                <li><a href="#"><i class="fa fa-angle-right"></i>Helena's Secrets <span>(10)</span></a></li>
-                                <li><a href="#"><i class="fa fa-angle-right"></i>Vestel's Shoes <span>(26)</span></a></li>
-                                <li><a href="#"><i class="fa fa-angle-right"></i>Puma &amp; Cougar <span>(14)</span></a></li>
-                                <li><a href="#"><i class="fa fa-angle-right"></i>Jane Shirts <span>(9)</span></a></li>
-                            </ul>
                         </div><!-- End .panel-body -->
                     </div><!-- End .panel-collapse -->
                 </div><!-- End .panel -->

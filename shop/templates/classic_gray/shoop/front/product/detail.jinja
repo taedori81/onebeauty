@@ -44,56 +44,62 @@
 {% block content_inner %}
     <div class="container">
         <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-6">
 
                 {% include "shoop/front/product/_product_images.jinja" %}
-            </div><!-- End .col-md-5 -->
+            </div><!-- End .col-md-6 -->
 
-        <div class="col-md-7">
+        <div class="col-md-6">
 
             <div class="product-details">
                 <h2 class="product-title">{{ product.name }}</h2>
                 <div class="product-cats">
                     <a href="" class=""></a>
                 </div><!-- End .product-cats -->
-                <div class="">
-                    {{ product.description }}
-                </div>
-                <div class="product-price-container">
-                    {{ macros.render_product_price(product, priceinfo) }}
-
-                    <div class="discount-price">
-                        {% if priceinfo.is_discounted %}
-                            <div class="discount">
-                              <span class="label label-danger">
-                                {% set discount_percent = priceinfo.discount_rate|percent %}
-                                {{- _("Save %(discount_percent)s", discount_percent=discount_percent) -}}
-                              </span>
-                            </div>
-                        {% endif %}
-                    </div>
                 <div class="row">
-                    <div class="col-sm-6">
-                        {{ ratings.star_ratings_short(product) }}
-                        {% if user.is_authenticated() %}
-                            {% if user_has_reviewed(product, request.user) %}
-                                {% trans %}You reviewd this product{% endtrans %}
-                                <div class="mb10"></div>
-                                <p class="product-ratings-count"><a href="#reviews">{{ get_review_count(product) }} Review(s)</a></p>
-                            {% else %}
-                                <a href="{{ url("review_create", content_type='product', object_id=product.id) }}" class="btn btn-custom btn-sm no-radius">{% trans %}Write a Review{% endtrans %}</a>
-    {#                            <a href="#" onclick="javascript:showReviewForm('product', {{ product.id }})" class="btn btn-custom btn-sm no-radius">{% trans %}Write Review{% endtrans %}</a>#}
-    {#                            <a href="{{ url("review_create", content_type='product', object_id= product.id) }}">{% trans %}Review this book{% endtrans %}</a>#}
+                    <div class="col-sm-12 input-desc">
+                        {{ product.description }}
+                    </div>
+                    <div class="product-price-container col-sm-12">
+                        {{ macros.render_product_price(product, priceinfo) }}
+
+                        <div class="discount-price">
+                            {% if priceinfo.is_discounted %}
+                                <div class="discount">
+                                  <span class="label label-danger">
+                                    {% set discount_percent = priceinfo.discount_rate|percent %}
+                                    {{- _("Save %(discount_percent)s", discount_percent=discount_percent) -}}
+                                  </span>
+                                </div>
                             {% endif %}
-
-                        {% else %}
-                            <p class="product-ratings-count"><a href="#reviews">{{ get_review_count(product) }} Review(s)</a></p>
-                            <p>Log in to write a Review</p>
-                        {% endif %}
+                        </div>
                     </div>
-                    <div class="col-sm-6">
+                </div>
 
-                    </div>
+                <div class="product-price-container">
+
+                    <div class="row">
+                        <div class="col-xs-6">
+                            {{ ratings.star_ratings_short(product) }}
+
+                        </div>
+                        <div class="col-xs-6">
+                            {% if user.is_authenticated() %}
+                                {% if user_has_reviewed(product, request.user) %}
+                                    {% trans %}You reviewd this product{% endtrans %}
+                                    <div class="mb10"></div>
+                                    <p class="product-ratings-count"><a href="#reviews">{{ get_review_count(product) }} Review(s)</a></p>
+                                {% else %}
+                                    <a href="{{ url("review_create", content_type='product', object_id=product.id) }}" class="btn btn-custom btn-sm no-radius">{% trans %}Write a Review{% endtrans %}</a>
+        {#                            <a href="#" onclick="javascript:showReviewForm('product', {{ product.id }})" class="btn btn-custom btn-sm no-radius">{% trans %}Write Review{% endtrans %}</a>#}
+        {#                            <a href="{{ url("review_create", content_type='product', object_id= product.id) }}">{% trans %}Review this book{% endtrans %}</a>#}
+                                {% endif %}
+
+                            {% else %}
+                                <p class="product-ratings-count"><a href="#reviews">{{ get_review_count(product) }} Review(s)</a></p>
+                                <p>Log in to write a Review</p>
+                            {% endif %}
+                        </div>
                 </div>
 
                 </div><!-- End .product-price-container -->

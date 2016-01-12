@@ -513,3 +513,83 @@ button.close {
     font-weight: 400;
     font-style: italic;
 }
+
+.review-actions{
+    padding-top: 20px;
+}
+
+.footer-link > ul > li > a {
+    /*padding-left: 10px;*/
+    color: #505050;
+    text-transform: uppercase;
+    font-size: 11px;
+}
+
+.footer-link > h5 {
+    text-transform: uppercase;
+    font-size: 11px;
+}
+
+.footer-link > ul > li > a:hover {
+    color: #AB5156;
+}
+@media (max-width: 768px) {
+    .nav-tabs > li > a, .nav-pills > li > a {
+        max-width: 100%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    .navbar-brand {
+        position: relative;
+        float: left;
+        height: 80px;
+        padding: 23px 15px 25px 15px;
+        font: 700 24px/1 'Raleway', Verdana, sans-serif;
+        border-right: 1px solid transparent;
+        transition: color 0.3s ease;
+        -webkit-transition: color 0.3s ease;
+    }
+
+    .page-header h1 {
+        font-size: 21px;
+    }
+    .page-header-desc {
+        margin-bottom: 10px;
+        color: #7a7a7a;
+        font-size: 12px;
+    }
+    .breadcrumb > li > a {
+        color: #898989;
+        font-size: 11px;
+    }
+    .breadcrumb > li {
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    #footer-inner {
+        /*margin-top: 75px;*/
+    }
+
+    .review-container {
+        margin-left:0px;
+    }
+    .product-details {
+        margin-bottom: 0px;
+    }
+    .page-header.larger, .page-header.larger2x {
+        padding-top: 20px;
+        padding-right:0px;
+        padding-bottom: 10px;
+        padding-left: 0px;
+    }
+    .review-title {
+        font-size: 18px;
+    }
+
+    .review-writer {
+        font-size: 12px;
+        font-weight: 400;
+    }
+}

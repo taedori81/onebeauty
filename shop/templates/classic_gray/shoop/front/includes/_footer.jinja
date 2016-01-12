@@ -21,6 +21,7 @@
 {% endmacro %}
 
 <footer>
+    <div class="divider line hidden-xs"></div>
     {% set col_order = xtheme.get("footer_column_order", "").split(",") %}
     {% set col_width = (12 / col_order|length)|int %}
     {% set col_macros = {"cms": cms_column, "html": html_column, "links": links_column} %}
@@ -40,7 +41,7 @@
     <div id="footer-inner">
         <div class="container">
             <div class="row">
-                <div class="col-md-3 col-sm-6">
+                <div class="col-md-3 col-sm-6 hidden-xs">
                     <div class="widget">
                         <div class="corporate-widget">
                             <span class="footer-logo">One Beauty</span><!-- End .footer-logo -->
@@ -49,52 +50,49 @@
                         </div><!-- End corporate-widget -->
                     </div><!-- End .widget -->
                 </div><!-- End .col-md-3 -->
-                <div class="col-md-3 col-sm-6">
-                    <div class="widget">
-                        {% include "shoop/front/includes/_category_menu.jinja" %}
-                    </div><!-- End .widget -->
+                <div class="col-md-3 col-sm-6 col-xs-4">
+                    <div class="footer-link text-center">
+                        <h5>{% trans %}Buying Guide{% endtrans %}</h5>
+                        <ul>
+                            <li><a href="">{% trans %}How to buy{% endtrans %}</a></li>
+                            <li><a href="">{% trans %}General Info{% endtrans %}</a></li>
+                            <li><a href="">{% trans %}Payment{% endtrans %}</a></li>
+                            <li><a href="">{% trans %}Shipping{% endtrans %}</a></li>
+                            <li><a href="">{% trans %}My Account{% endtrans %}</a></li>
+                        </ul>
+                    </div>
                 </div><!-- End .col-md-3 -->
 
-                <div class="clearfix visible-sm"></div><!-- End .clearfix -->
-
-                <div class="col-md-3 col-sm-6">
-                    <div class="widget">
-
-                    </div><!-- End .tagcloud -->
+                <div class="col-md-3 col-sm-6 col-xs-4">
+                    <div class="footer-link text-center">
+                        <h5>{% trans %}Policies{% endtrans %}</h5>
+                        <ul>
+                            <li><a href="">{% trans %}Privacy Policy{% endtrans %}</a></li>
+                            <li><a href="">{% trans %}Terms & Condition{% endtrans %}</a></li>
+                            <li><a href="">{% trans %}Return Policy{% endtrans %}</a></li>
+                        </ul>
+                    </div>
                 </div><!-- End .col-md-3 -->
 
-                <div class="col-md-3 col-sm-6">
-                    <div class="widget">
-                        <h4>Partner Manufacture</h4>
-                        <ul class="flickr-widget flickr-widget-two clearfix"></ul>
-                    </div><!-- End .widget -->
-                    <div class="widget">
-                        <h4>Newsletter</h4>
-                        <div class="newsletter-widget">
-                            <p>Join our newsletter and follow the latest trends of beauty.</p>
-                            <form action="#" id="newsletter-widget-form">
-                                <input type="email" class="form-control " placeholder="Join our newsletter..." required>
-                                <button type="submit" title="Join Now!" class="btn btn-custom "><i class="fa fa-envelope"></i></button>
-                            </form>
-                        </div><!-- End .newsletter-widget -->
-                    </div><!-- End .widget -->
+                <div class="col-md-3 col-sm-6 col-xs-4">
+                    <div class="footer-link text-center">
+                        <h5>{% trans %}Company{% endtrans %}</h5>
+                        <ul>
+                            <li><a href="">{% trans %}About Us{% endtrans %}</a></li>
+                            <li><a href="">{% trans %}Office{% endtrans %}</a></li>
+                            <li><a href="">{% trans %}Store{% endtrans %}</a></li>
+                            <li><a href="">{% trans %}Contact Us{% endtrans %}</a></li>
+                        </ul>
+                    </div>
                 </div><!-- End .col-md-3 -->
+
             </div><!-- End .row -->
         </div><!-- End .container -->
     </div><!-- End #footer-inner -->
     <div id="footer-bottom">
         <div class="container">
             <div class="row">
-                <div class="col-md-6 col-md-push-6">
-                    <ul class="footer-menu">
-                        <li><a href="aboutus.html">About Us</a></li>
-                        <li><a href="#">Search</a></li>
-                        <li><a href="faqs.html">Faqs</a></li>
-                        <li><a href="knowledge.html">Knowledge</a></li>
-                        <li><a href="contact.html">Contact Us</a></li>
-                    </ul>
-                </div><!-- End .col-md-6 -->
-                <div class="col-md-6 col-md-pull-6">
+                <div class="col-sm-12">
                     <p class="copyright">Designed and Developed by Evo.  All rights reserved. &copy; <a href="http://www.byevo.com">www.byevo.com</a></p>
                 </div><!-- End .col-md-6 -->
             </div><!-- End .row -->

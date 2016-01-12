@@ -18,6 +18,7 @@ from django.conf.urls import patterns, include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.i18n import set_language
+from django.contrib.flatpages import views
 
 
 urlpatterns = patterns(
@@ -26,6 +27,10 @@ urlpatterns = patterns(
     url(r'^admin/', include(admin.site.urls)),
     url(r'^sa/', include('shoop.admin.urls', namespace="shoop_admin", app_name="shoop_admin")),
     url(r'^api/', include('shoop.api.urls')),
+    url(r'^buyingguide/', views.flatpage, {'url': '/buying-guide/'}, name='guide'),
+    url(r'^policies/', views.flatpage, {'url': '/polices/'}, name='polices'),
+    url(r'^aboutus/', views.flatpage, {'url': '/aboutus/'}, name='aboutus'),
+
 
     url(r'^ratings/', include('star_ratings.urls', namespace='ratings', app_name='ratings')),
     url(r'^review/', include('review.urls')),

@@ -7,6 +7,7 @@ from shoop.core.pricing import TaxfulPrice, TaxlessPrice
 from shoop.core.taxing import TaxedPrice, LineTax
 
 import requests
+from requests.exceptions import RequestException
 
 
 class AvaTaxModule(taxing.TaxModule):
@@ -31,18 +32,23 @@ def _calculate_taxes(price, taxing_context):
     postal_code = taxing_context.postal_code
     api_url = settings.AVA_API_URL
     api_url = api_url.format(postal_code, settings.AVA_API_KEY)
+    rate = 0
 
-    ava_response = requests.get(api_url)
-    if ava_response.status_code == '200':
-        rate = ava_response.json()['totalRate']
-    else:
-        rate = 0
+    try:
+        ava_response = requests.get(api_url)
+        if ava_response.status_code == '200':
+            rate = ava_response.json()['totalRate']
+        else:
+            raise ValueError("Error while calculating tax.  Please try again later.")
+
+    except RequestException as e:
+        raise ValueError("Error while calculating tax.  Please try again later.")
 
     tax = Tax()
     tax.rate = rate
-    # tax.translations = taxing_context.region_code
+    # tax.name = taxing_context.region_code
     taxes = LineTax.from_tax(tax, base_price)
 
     taxful_price = TaxfulPrice(taxes.calcuate_amount(base_price))
 
-    return TaxedPrice(taxful_price, base_price, taxes=taxes)
+    return TaxedPrice(taxful_price, base_price, taxes=[])

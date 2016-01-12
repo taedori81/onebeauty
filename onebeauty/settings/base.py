@@ -53,6 +53,8 @@ INSTALLED_APPS = add_enabled_addons(SHOOP_ENABLED_ADDONS_FILE, [
     'django.contrib.sessions',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django.contrib.flatpages',
+
     # custom shop
     'shop',
 
@@ -113,6 +115,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'shoop.front.middleware.ProblemMiddleware',
     'shoop.front.middleware.ShoopFrontMiddleware',
 )
@@ -278,7 +281,7 @@ SHOOP_HOME_CURRENCY = 'USD'
 
 # Tax
 
-SHOOP_TAX_MODULE = "avalara_tax"
+# SHOOP_TAX_MODULE = "avalara_tax"
 
 
 # Avalara Api
@@ -287,6 +290,7 @@ AVA_API_KEY = '23AWdBihK45%2FSydcwLOWX9C79x52U1xSXwBTjRDwPSdpn%2BT53GyQ0YyXt%2FR
 
 # Opbeat
 OPBEAT = {
+    "DEBUG": True,
     'ORGANIZATION_ID': '05436e12b988423f8cfde74512dbfd78',
     'APP_ID': '5743335261',
     'SECRET_TOKEN': 'b0fdba56b0243d6959d5b866bfe845bc9b8ffbf1',

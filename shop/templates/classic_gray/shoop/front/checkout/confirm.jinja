@@ -65,10 +65,15 @@
                 </div>
             </div>
             <hr>
-            {{ macros.render_field(form.marketing) }}
-            {{ macros.render_field(form.accept_terms) }}
+            <div class="container">
+                {{ macros.render_field(form.marketing) }}
+                {{ macros.render_field(form.accept_terms) }}
+            </div>
             <hr>
-            <button type="submit" class="btn btn-custom no-radius btn-lg">
+            <button type="submit" class="btn btn-custom no-radius btn-lg btn-checkout hidden-xs">
+                <i class="fa fa-check"></i> {% trans %}Place Order{% endtrans %}
+            </button>
+            <button type="submit" class="btn btn-custom no-radius btn-block btn-checkout visible-xs">
                 <i class="fa fa-check"></i> {% trans %}Place Order{% endtrans %}
             </button>
         </form>

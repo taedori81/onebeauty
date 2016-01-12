@@ -102,58 +102,6 @@
                         {% endif %}
                     </ul>
                 </div><!-- End .pull-left -->
-
-                <div class="pull-right">
-                    <div class="social-icons pull-right hidden-xs">
-                        <a href="#" class="social-icon icon-facebook" title="Facebook">
-                            <i class="fa fa-facebook"></i>
-                        </a>
-                        <a href="#" class="social-icon icon-twitter" title="Twitter">
-                            <i class="fa fa-twitter"></i>
-                        </a>
-                        <a href="#" class="social-icon icon-google-plus" title="Google Plus">
-                            <i class="fa fa-google-plus"></i>
-                        </a>
-                        <a href="#" class="social-icon icon-dribbble" title="Dribbble">
-                            <i class="fa fa-dribbble"></i>
-                        </a>
-                        <a href="#" class="social-icon icon-reddit" title="Reddit">
-                            <i class="fa fa-reddit"></i>
-                        </a>
-                        <a href="#" class="social-icon icon-skype" title="Skype">
-                            <i class="fa fa-skype"></i>
-                        </a>
-                    </div><!-- End .social-icons -->
-
-                    <div class="dropdowns-container pull-right clearfix hidden-xs hidden-sm">
-                        <div class="dropdown currency-dropdown pull-right">
-                            <a class="dropdown-toggle" href="#" id="currency-dropdown" data-toggle="dropdown" aria-expanded="true">
-                            Currency
-                            <span class="angle"></span>
-                            </a>
-                            <ul class="dropdown-menu" role="menu" aria-labelledby="currency-dropdown">
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Us Dollar</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Euro</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Turkish TL</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Pound</a></li>
-                            </ul>
-                        </div><!-- End .currency-dropdown -->
-
-                        <div class="dropdown language-dropdown pull-right hidden-xs hidden-sm">
-                            <a class="dropdown-toggle" href="#" id="language-dropdown" data-toggle="dropdown" aria-expanded="true">
-                            Languages
-                            <span class="angle"></span>
-                            </a>
-                            <ul class="dropdown-menu" role="menu" aria-labelledby="language-dropdown">
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">English</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Spanish</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Turkish</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">German</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Italian</a></li>
-                            </ul>
-                        </div><!-- End .curreny-dropdown -->
-                    </div><!-- End. dropdowns-container -->
-                </div><!-- End .pull-right -->
             </div><!-- End .container-fluid -->
         </div><!-- End .navbar-top -->
 
@@ -171,6 +119,12 @@
                     {% else %}
                         <a class="navbar-brand text-uppercase clear-padding-left" href="/" title="">{{ request.shop.public_name }}</a>
                     {% endif %}
+
+                    <button type="button" class="navbar-btn btn-icon btn-circle pull-right last visible-sm visible-xs" data-toggle="collapse" data-target="#header-search-form"><i class="fa fa-search"></i></button>
+
+                    <div class="dropdown cart-dropdown pull-right visible-sm visible-xs" id="navigation-basket-partial">
+                        {% include "classic_gray/navigation_basket_partial.jinja" with context %}
+                    </div><!-- End .cart-dropdown -->
                 </div><!-- End .navbar-header -->
 
                 <div class="collapse navbar-collapse" id="main-navbar-container">
@@ -197,15 +151,16 @@
                                 {% endif %}
                         </ul>
 
-                        <button type="button" class="navbar-btn btn-icon btn-circle pull-right last" data-toggle="collapse" data-target="#header-search-form"><i class="fa fa-search"></i></button>
+                        <button type="button" class="navbar-btn btn-icon btn-circle pull-right last hidden-sm hidden-xs" data-toggle="collapse" data-target="#header-search-form"><i class="fa fa-search"></i></button>
+                        {% block mini_basket %}
+                            <div class="dropdown cart-dropdown pull-right hidden-sm hidden-xs" id="navigation-basket-partial">
+                                {% include "classic_gray/navigation_basket_partial.jinja" with context %}
+                            </div><!-- End .cart-dropdown -->
+                        {% endblock %}
 
-                    {% block mini_basket %}
-                        <div class="dropdown cart-dropdown pull-right" id="navigation-basket-partial">
-                        {% include "classic_gray/navigation_basket_partial.jinja" with context %}
-                        </div><!-- End .cart-dropdown -->
-                    {% endblock %}
                     </div><!-- End .container -->
                 </div><!-- /.navbar-collapse -->
+
             </div><!-- /.container-fluid -->
         </div>
     </nav>

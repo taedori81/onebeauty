@@ -75,7 +75,6 @@ INSTALLED_APPS = add_enabled_addons(SHOOP_ENABLED_ADDONS_FILE, [
     'shoop.discount_pricing',
     'herokuapp',
     'storages',
-
     'hvad',
     'review',
     'user_media',
@@ -253,13 +252,13 @@ EMAIL_HOST_USER = os.environ.get("SENDGRID_USERNAME")
 
 EMAIL_HOST_PASSWORD = os.environ.get("SENDGRID_PASSWORD")
 
-EMAIL_PORT = 25
+EMAIL_PORT = 587
 
-EMAIL_USE_TLS = False
+EMAIL_USE_TLS = True
 
 SERVER_EMAIL = u"{name} <notifications@{domain}>".format(
-    name = SITE_NAME,
-    domain = SITE_DOMAIN,
+    name=SITE_NAME,
+    domain=SITE_DOMAIN,
 )
 
 DEFAULT_FROM_EMAIL = SERVER_EMAIL
@@ -333,6 +332,9 @@ OPBEAT = {
     'APP_ID': '5743335261',
     'SECRET_TOKEN': 'b0fdba56b0243d6959d5b866bfe845bc9b8ffbf1',
 }
+
+
+# SHOOP_TAX_MODULE = "avalara_tax"
 
 
 if os.environ.get("SHOOP_WORKBENCH_DISABLE_MIGRATIONS") == "1":

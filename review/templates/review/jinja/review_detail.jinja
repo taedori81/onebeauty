@@ -7,30 +7,34 @@
 {% endblock %}
 
 {% block content_inner %}
-    {% set u = url("shoop:product", pk=object.reviewed_item.pk, slug=object.reviewed_item.slug) %}
-    <h2>{% trans %}Review for:{% endtrans %} {{ object.reviewed_item }} ({{ object.creation_date|datetime }})</h2>
+    <div class="container">
+        {% set u = url("shoop:product", pk=object.reviewed_item.pk, slug=object.reviewed_item.slug) %}
+        <h2 class="review-title">{% trans %}Review for:{% endtrans %} {{ object.reviewed_item }} ({{ object.creation_date|datetime }})</h2>
 
-    {% if object.content %}
-        <h3>{{ object.get_user() }} {% trans %}wrote{% endtrans %}:</h3>
-         {{ ratings.star_ratings_user_rating(object.reviewed_item) }}
-        <div class="form-wrapper">
-            <p class="review-content">{{ object.content|safe }}</p>
+        {% if object.content %}
+            <h3 class="review-writer">{{ object.get_user() }} {% trans %}wrote{% endtrans %}:</h3>
+             {{ ratings.star_ratings_user_rating(object.reviewed_item) }}
+            <div class="form-wrapper">
+                <p class="review-content">{{ object.content|safe }}</p>
+            </div>
+        {% else %}
+            <p>{% trans user=object.get_user() %}{{ user }} reviewed without description.{% endtrans %}</p>
+        {% endif %}
+        {% if object.ratings.all() %}
+            <h3>{% trans %}Ratings{% endtrans %}{% if object.get_average_rating() %} ({{ object.get_average_rating() }} {% trans %}of{% endtrans %} 5){% endif %}</h3>
+            <ul>
+                {% for rating in object.ratings.all() %}
+                    <li>{{ rating.category }}: {{ rating.get_value_display }} {% trans %}of{% endtrans %} 5</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <div class="review-actions">
+            {% if object.user == request.user and object.is_editable %}
+                <a href="{{ url ("review_update", pk=review.pk) }}">{% trans %}Change it.{% endtrans %}</a></p>
+            {% endif %}
+            <a href="{{ u }}" class="">{% trans %}Go back to Product page{% endtrans %}</a>
         </div>
-    {% else %}
-        <p>{% trans user=object.get_user() %}{{ user }} reviewed without description.{% endtrans %}</p>
-    {% endif %}
-    {% if object.ratings.all() %}
-        <h3>{% trans %}Ratings{% endtrans %}{% if object.get_average_rating() %} ({{ object.get_average_rating() }} {% trans %}of{% endtrans %} 5){% endif %}</h3>
-        <ul>
-            {% for rating in object.ratings.all() %}
-                <li>{{ rating.category }}: {{ rating.get_value_display }} {% trans %}of{% endtrans %} 5</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    {% if object.user == request.user and object.is_editable %}
-        <a href="{{ url ("review_update", pk=review.pk) }}">{% trans %}Change it.{% endtrans %}</a></p>
-    {% endif %}
-    <a href="{{ u }}" class="">{% trans %}Go back to Product page{% endtrans %}</a>
+    </div>
 {% endblock %}
 
 
