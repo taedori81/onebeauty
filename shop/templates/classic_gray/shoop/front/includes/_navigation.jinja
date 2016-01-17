@@ -122,8 +122,8 @@
 
                     <button type="button" class="navbar-btn btn-icon btn-circle pull-right last visible-sm visible-xs" data-toggle="collapse" data-target="#header-search-form"><i class="fa fa-search"></i></button>
 
-                    <div class="dropdown cart-dropdown pull-right visible-sm visible-xs" id="navigation-basket-partial">
-                        {% include "classic_gray/navigation_basket_partial.jinja" with context %}
+                    <div class="dropdown cart-dropdown pull-right visible-sm visible-xs" id="navigation-basket-partial2">
+                        {% include "classic_gray/navigation_basket_partial_for_mobile.jinja" with context %}
                     </div><!-- End .cart-dropdown -->
                 </div><!-- End .navbar-header -->
 
@@ -152,11 +152,10 @@
                         </ul>
 
                         <button type="button" class="navbar-btn btn-icon btn-circle pull-right last hidden-sm hidden-xs" data-toggle="collapse" data-target="#header-search-form"><i class="fa fa-search"></i></button>
-                        {% block mini_basket %}
+
                             <div class="dropdown cart-dropdown pull-right hidden-sm hidden-xs" id="navigation-basket-partial">
                                 {% include "classic_gray/navigation_basket_partial.jinja" with context %}
                             </div><!-- End .cart-dropdown -->
-                        {% endblock %}
 
                     </div><!-- End .container -->
                 </div><!-- /.navbar-collapse -->

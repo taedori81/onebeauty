@@ -2,7 +2,7 @@
     <span class="badge">{{ request.basket.product_count }}</span>
 </button>
 <div class="dropdown-menu cart-dropdown-menu" role="menu" >
-    <div class="">
+    <div class="container">
         {% if request.basket.get_lines() %}
             <p class="cart-dropdown-desc"><i class="fa fa-cart-plus"></i>You have <span class="label label-custom">{{ request.basket.product_count }}</span> product(s) in your cart:</p>
             <hr>

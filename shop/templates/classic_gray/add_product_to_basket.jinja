@@ -20,7 +20,7 @@
             url: "{{ url('shoop:xtheme_extra_view', view='basket_partial') }}",
             method: "GET",
             success: function(basket_html) {
-                $("#navigation-basket-partial").html(basket_html);
+                $("#navigation-basket-partial, #navigation-basket-partial2").html(basket_html);
             }
         });
     }

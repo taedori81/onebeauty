@@ -1,7 +1,11 @@
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
+from django.utils.lru_cache import lru_cache
 
-from shoop.core import taxing
+from shoop.core.taxing import TaxModule
+from shoop.core.taxing.utils import stacked_value_added_taxes
+from shoop.utils.i18n import format_percent
+
 from shoop.core.models import Tax
 from shoop.core.pricing import TaxfulPrice, TaxlessPrice
 from shoop.core.taxing import TaxedPrice, LineTax
@@ -10,45 +14,46 @@ import requests
 from requests.exceptions import RequestException
 
 
-class AvaTaxModule(taxing.TaxModule):
+class AvaTaxModule(TaxModule):
 
     identifier = "avalara_tax"
     name = _("Avalara Taxation")
 
     def get_taxed_price_for(self, context, item, price):
-        return _calculate_taxes(price, context)
+        tax = get_tax(context.postal_code)
+        return stacked_value_added_taxes(price, [tax])
 
 
-def _calculate_taxes(price, taxing_context):
-    """
-    Caculate tax using PyAvaTax
+@lru_cache()
+def get_tax(postal_code):
+    rate = get_tax_rate_for_postal_code(postal_code)
+    return get_tax_by_rate_and_postal_code(rate, postal_code)
 
-    :param price:
-    :param taxing_context:
-    :param tax_class:
-    :return:
-    """
-    base_price = TaxlessPrice(price)
-    postal_code = taxing_context.postal_code
+
+def get_tax_rate_for_postal_code(postal_code):
     api_url = settings.AVA_API_URL
     api_url = api_url.format(postal_code, settings.AVA_API_KEY)
-    rate = 0
-
+    rate = 0.00
     try:
         ava_response = requests.get(api_url)
-        if ava_response.status_code == '200':
+        if ava_response.status_code == 200:
+            # Avalara return total rate in string like 9.0
             rate = ava_response.json()['totalRate']
-        else:
-            raise ValueError("Error while calculating tax.  Please try again later.")
+            # Convert to float and change to like 0.09
+            rate = float(rate) * 0.01
 
     except RequestException as e:
-        raise ValueError("Error while calculating tax.  Please try again later.")
+        print(e)
 
-    tax = Tax()
-    tax.rate = rate
-    # tax.name = taxing_context.region_code
-    taxes = LineTax.from_tax(tax, base_price)
+    return rate
 
-    taxful_price = TaxfulPrice(taxes.calcuate_amount(base_price))
 
-    return TaxedPrice(taxful_price, base_price, taxes=[])
+def get_tax_by_rate_and_postal_code(rate, postal_code):
+    code = '%s:%s' % (postal_code, rate)  # Note: rates for a postal code could change
+    tax_data = {
+        'name': _("%(percent)s tax for ZIP %(postal_code)s") % {
+            'percent': format_percent(rate, 2), 'postal_code': postal_code,
+        },
+    }
+    tax = Tax.objects.language('en').get_or_create(rate=rate, code=code, defaults=tax_data)[0]
+    return tax

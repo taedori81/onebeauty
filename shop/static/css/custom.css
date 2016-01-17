@@ -226,7 +226,7 @@ input[type="text"][id*="quantity"], input[type="number"][id*="quantity"] {
 }
 
 .cover-wrap {
-    background:rgba(116,173,64,.8);
+    background: rgba(153, 72, 77, 0.8);
     color:#fff;
     position:fixed;
     text-align:center;

@@ -281,7 +281,7 @@ SHOOP_HOME_CURRENCY = 'USD'
 
 # Tax
 
-# SHOOP_TAX_MODULE = "avalara_tax"
+SHOOP_TAX_MODULE = "avalara_tax"
 
 
 # Avalara Api
